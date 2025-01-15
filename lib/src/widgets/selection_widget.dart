@@ -24,6 +24,7 @@ class SelectionWidget<T> extends StatefulWidget {
   final ClearButtonProps clearButtonProps;
   final void Function()? clearAllSelected;
   final bool? makeButtonsInRow;
+  final Widget? loadingWidget;
 
   const SelectionWidget({
     Key? key,
@@ -33,6 +34,7 @@ class SelectionWidget<T> extends StatefulWidget {
     this.items = const [],
     this.onChanged,
     this.clearAllSelected,
+    this.loadingWidget,
     this.clearButtonProps = const ClearButtonProps(),
     this.afterPopTheDialog,
     this.confirmButtonPadding = const EdgeInsets.symmetric(horizontal: 8),
@@ -388,7 +390,7 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
               searchBoxController.text,
             );
           } else {
-            return Container(
+            return widget.loadingWidget?? Container(
               height: 70,
               alignment: Alignment.center,
               child: const CircularProgressIndicator(),

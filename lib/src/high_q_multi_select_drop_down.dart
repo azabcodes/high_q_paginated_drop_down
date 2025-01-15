@@ -22,6 +22,7 @@ class HighQMultiSelectDropDown<T> extends StatefulWidget {
   final SelectedItemDecorationPros selectedItemDecorationPros;
   final ConfirmButtonProps confirmButtonProps;
   final ClearButtonProps clearButtonProps;
+  final Widget? loadingWidget;
   final DropdownButtonProps dropdownButtonProps;
   final ValidatorProps<T> validatorProps;
   final PopupPropsMultiSelection<T> popupProps;
@@ -45,6 +46,7 @@ class HighQMultiSelectDropDown<T> extends StatefulWidget {
     this.lessText = 'Show less',
     this.maxDisplayCount = 3,
     this.controller,
+    this.loadingWidget,
     this.makeButtonsInRow= false,
     this.dropdownDecorator = const DropDownDecoratorProps(),
     this.clearButtonProps = const ClearButtonProps(),
@@ -492,6 +494,7 @@ class HighQMultiSelectDropDownState<T>
       compareFn: widget.filterAndCompareProps.compareFn,
       filterFn: widget.filterAndCompareProps.filterFn,
       clearButtonProps: widget.clearButtonProps,
+      loadingWidget: widget.loadingWidget,
       clearAllSelected: clearAllSelected,
       onChanged: _handleOnChangeSelectedItems,
     );

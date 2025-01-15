@@ -91,3 +91,7 @@ HighQPaginatedDropdown<int>.paginated(
 );
 ```
 
+
+// Publish the package
+dart pub publish --dry-run
+dart pub publish

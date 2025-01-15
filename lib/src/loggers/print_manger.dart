@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 
 import 'colored_print.dart';
@@ -5,7 +7,7 @@ import 'colored_print.dart';
 class PrintManager {
   static void printFullText(String text) {
     final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-    pattern.allMatches(text).forEach((match) => print(match.group(0)));
+    pattern.allMatches(text).forEach((match) => log(match.group(0).toString()));
   }
 
   static void printItem({
@@ -14,10 +16,10 @@ class PrintManager {
   }) {
     if (kDebugMode) {
       if (printFirst == true) {
-        print(AppStringsManager.printEqual);
+        log(AppStringsManager.printEqual);
       }
-      print(item.toString());
-      print(AppStringsManager.printEqual);
+      log(item.toString());
+      log(AppStringsManager.printEqual);
     }
   }
 
@@ -29,16 +31,17 @@ class PrintManager {
     final colorCode = ColoredPrint.colorCodes[color];
     if (colorCode != null) {
       if (printFirst == true) {
-        print(AppStringsManager.printEqual);
+        log(AppStringsManager.printEqual);
       }
-      print('$colorCode$item${ColoredPrint.colorCodes[ConsoleColor.reset]}');
-      print(AppStringsManager.printEqual);
+      log('$colorCode$item${ColoredPrint.colorCodes[ConsoleColor.reset]}');
+      log(AppStringsManager.printEqual);
     } else {
-      print(item);
-      print(AppStringsManager.printEqual);
+      log(item);
+      log(AppStringsManager.printEqual);
     }
   }
 }
+
 class AppStringsManager {
   static const printEqual = "══════════════════════════════════════════════>>";
   static const printEqual2 =
