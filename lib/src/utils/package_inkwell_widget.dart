@@ -4,6 +4,7 @@ class PackageInkwellWidget extends StatelessWidget {
   final bool disableTabEffect;
   final EdgeInsets? padding;
   final VoidCallback? onTap;
+  final double? borderRadius;
   final Widget child;
 
   const PackageInkwellWidget({
@@ -11,17 +12,18 @@ class PackageInkwellWidget extends StatelessWidget {
     required this.child,
     super.key,
     this.padding,
+    this.borderRadius,
     this.disableTabEffect = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      focusColor: disableTabEffect ? Colors.transparent : null,
-      splashColor: disableTabEffect ? Colors.transparent : null,
-      highlightColor: disableTabEffect ? Colors.transparent : null,
+      focusColor: disableTabEffect ? Colors.white : null,
+      splashColor: disableTabEffect ? Colors.white : null,
+      highlightColor: disableTabEffect ? Colors.white : null,
       onTap: onTap,
-      borderRadius: const BorderRadius.all(Radius.circular(8)),
+      borderRadius:  BorderRadius.all(Radius.circular(borderRadius ??8)),
       child: Padding(
         padding: padding ?? const EdgeInsets.all(8),
         child: child,

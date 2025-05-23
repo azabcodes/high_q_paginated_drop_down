@@ -114,7 +114,7 @@ class MyApp extends StatelessWidget {
                     spaceBetweenDropDownAndItemsDialog: 10,
                     isEnabled: true,
                     onTapWhileDisableDropDown: () {},
-                    isDialogExpanded: true,
+                    isDialogExpanded: true,showTextField: false,
                     paddingValueWhileIsDialogExpanded: 16,
                     noRecordText: const Text('HJKHJKHJKLJKJH'),
                   );
