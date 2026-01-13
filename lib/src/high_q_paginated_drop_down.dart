@@ -34,8 +34,6 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
 
   final Widget? trailingClearIcon;
 
-  final Widget? leadingIcon;
-
   final Widget Function(Widget child)? backgroundDecoration;
   final Decoration? menuDecoration;
   final Widget Function(BuildContext context, int index)? separatorBuilder;
@@ -89,7 +87,6 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
          padding: padding,
          trailingIcon: trailingIcon,
          trailingClearIcon: trailingClearIcon,
-         leadingIcon: leadingIcon,
          onChanged: onChanged,
          items: items,
          initialValue: value,
@@ -164,7 +161,6 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
          padding: padding,
          trailingIcon: trailingIcon,
          trailingClearIcon: trailingClearIcon,
-         leadingIcon: leadingIcon,
          onChanged: onChanged,
          isEnabled: isEnabled,
          showTextField: showTextField,
@@ -198,7 +194,6 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
     this.padding,
     this.trailingIcon,
     this.trailingClearIcon,
-    this.leadingIcon,
     this.onChanged,
     this.items,
     this.initialValue,
@@ -270,7 +265,6 @@ class _HighQPaginatedDropdownState<T> extends State<HighQPaginatedDropdown<T>> {
       onTapWhileDisableDropDown: widget.onTapWhileDisableDropDown,
       dropDownMaxHeight: widget.dropDownMaxHeight,
       hintText: widget.hintText,
-      leadingIcon: widget.leadingIcon,
       padding: widget.padding,
       noRecordText: widget.noRecordText,
       onChanged: widget.onChanged,

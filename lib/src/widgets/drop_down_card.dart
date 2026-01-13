@@ -44,7 +44,7 @@ class DropDownCard<T> extends StatelessWidget {
           child: Material(
             child: Container(
               margin: EdgeInsets.zero,
-              padding: const EdgeInsets.symmetric(vertical: 4),
+
               decoration:
                   menuDecoration ??
                   BoxDecoration(
@@ -58,26 +58,28 @@ class DropDownCard<T> extends StatelessWidget {
                     : VerticalDirection.down,
                 children: [
                   if (showTextField == true)
-                    PackageSearchBar(
-                      searchDelayDuration:
-                          searchDelayDuration ??
-                          const Duration(milliseconds: 200),
-                      hintText: searchHintText ?? 'Search',
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: PackageSearchBar(
+                        searchDelayDuration:
+                            searchDelayDuration ??
+                            const Duration(milliseconds: 200),
+                        hintText: searchHintText ?? 'Search',
 
-                      leadingIcon: SizedBox.shrink(),
-                      onChangeComplete: (value) {
-                        controller.searchText = value;
-                        if (controller.items != null) {
-                          controller.fillSearchedList(value);
-                          return;
-                        }
-                        controller.getItemsWithPaginatedRequest(
-                          searchText: value == '' ? null : value,
-                          page: 1,
-                          isNewSearch: true,
-                        );
-                      },
-                      textFieldDecoration: textFieldDecoration,
+                        onChangeComplete: (value) {
+                          controller.searchText = value;
+                          if (controller.items != null) {
+                            controller.fillSearchedList(value);
+                            return;
+                          }
+                          controller.getItemsWithPaginatedRequest(
+                            searchText: value == '' ? null : value,
+                            page: 1,
+                            isNewSearch: true,
+                          );
+                        },
+                        textFieldDecoration: textFieldDecoration,
+                      ),
                     ),
                   Flexible(
                     child: DropDownListView(

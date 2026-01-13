@@ -29,7 +29,6 @@ class DropDown<T> extends StatelessWidget {
   final void Function(T? value)? onChanged;
   final Widget? trailingIcon;
   final Widget? trailingClearIcon;
-  final Widget? leadingIcon;
   final Widget? hintText;
   final Widget? noRecordText;
 
@@ -39,7 +38,6 @@ class DropDown<T> extends StatelessWidget {
     required this.showTextField,
     required this.isEnabled,
     required this.isDialogExpanded,
-    this.leadingIcon,
     this.trailingIcon,
     this.paddingValueWhileIsDialogExpanded,
     this.trailingClearIcon,
@@ -87,24 +85,14 @@ class DropDown<T> extends StatelessWidget {
       },
       child: Container(
         padding: padding ?? const EdgeInsets.all(8),
+
         child: Row(
           children: [
             Expanded(
-              child: Row(
-                children: [
-                  if (leadingIcon != null)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 3),
-                      child: leadingIcon,
-                    ),
-                  Flexible(
-                    child: DropDownText(
-                      controller: controller,
-                      hintText: hintText,
-                      selectedItemBuilder: selectedItemBuilder,
-                    ),
-                  ),
-                ],
+              child: DropDownText(
+                controller: controller,
+                hintText: hintText,
+                selectedItemBuilder: selectedItemBuilder,
               ),
             ),
             ValueListenableBuilder(

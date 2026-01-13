@@ -11,7 +11,8 @@ if You need to make pagination use BasicPaginatedSearchDropdown.paginated
 
 HighQPaginatedDropdown<int>.paginated
 
-ex : 
+ex :
+
 ```dart
 HighQPaginatedDropdown<int>.paginated(
   requestItemCount: 25,
@@ -51,11 +52,10 @@ HighQPaginatedDropdown<int>.paginated(
 
 ```
 
-
-
 if You need to make pagination and validation in same time use PaginatedSearchDropdownFormField.paginated
 
-ex : 
+ex :
+
 ```dart
 HighQPaginatedDropdown<int>.paginated(
   controller: searchableDropdownController,
@@ -90,7 +90,6 @@ HighQPaginatedDropdown<int>.paginated(
   },
 );
 ```
-
 
 // Publish the package
 dart pub publish --dry-run

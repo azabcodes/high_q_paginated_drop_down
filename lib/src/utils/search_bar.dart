@@ -12,14 +12,12 @@ class PackageSearchBar extends StatelessWidget {
   final InputDecoration? textFieldDecoration;
 
   final void Function(String value)? onChangeComplete;
-  final Widget? leadingIcon;
 
   const PackageSearchBar({
     super.key,
     this.onChangeComplete,
     this.searchDelayDuration = const Duration(milliseconds: 800),
     this.hintText,
-    this.leadingIcon,
 
     this.focusNode,
     this.controller,
@@ -39,7 +37,7 @@ class PackageSearchBar extends StatelessWidget {
         onChangeComplete: onChangeComplete,
         searchDelayDuration: searchDelayDuration,
         hintText: hintText,
-        leadingIcon: leadingIcon,
+
         focusNode: focusNode,
         controller: controller,
         style: style,
@@ -56,14 +54,14 @@ class SearchTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final TextStyle? style;
   final void Function(String value)? onChangeComplete;
-  final Widget? leadingIcon;
+
   final InputDecoration? textFieldDecoration;
 
   const SearchTextFormField({
     this.onChangeComplete,
     this.searchDelayDuration = const Duration(milliseconds: 800),
     this.hintText,
-    this.leadingIcon,
+
     this.focusNode,
     this.controller,
     this.style,
@@ -94,14 +92,12 @@ class SearchTextFormField extends StatelessWidget {
       decoration:
           textFieldDecoration?.copyWith(
             hintText: textFieldDecoration?.hintText ?? hintText,
-            icon: textFieldDecoration?.icon ?? leadingIcon,
           ) ??
           InputDecoration(
             contentPadding: EdgeInsets.zero,
             isDense: true,
             border: InputBorder.none,
             hintText: hintText,
-            icon: leadingIcon,
           ),
     );
   }
