@@ -7,11 +7,11 @@ class MenuItemModel<T> {
 
   final VoidCallback? onTap;
 
-  final Widget child;
+  final Widget? child;
 
   const MenuItemModel({
     required this.label,
-    required this.child,
+    this.child,
     this.value,
     this.onTap,
   });

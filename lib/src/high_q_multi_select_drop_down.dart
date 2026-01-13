@@ -1,19 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:high_q_paginated_drop_down/src/multi_selection_controller.dart';
-import 'package:high_q_paginated_drop_down/src/properties/clear_button_props.dart';
-import 'package:high_q_paginated_drop_down/src/properties/dropdown_button_props.dart';
-import 'package:high_q_paginated_drop_down/src/properties/dropdown_decorator_props.dart';
-import 'package:high_q_paginated_drop_down/src/properties/popup_props.dart';
-import 'package:high_q_paginated_drop_down/src/utils/typedefs.dart';
-import 'package:high_q_paginated_drop_down/src/widgets/popup_menu.dart';
-import 'package:high_q_paginated_drop_down/src/widgets/selection_widget.dart';
-import 'properties/confirm_button_props.dart';
-import 'properties/filter_props.dart';
-import 'properties/items_logic_props.dart';
-import 'properties/methods_logic_props.dart';
-import 'properties/selected_item_decoration_pros.dart';
-import 'properties/validator_props.dart';
+import '../high_q_paginated_drop_down.dart';
 
 class HighQMultiSelectDropDown<T> extends StatefulWidget {
   final ItemsLogicProps<T> itemsLogicProps;
@@ -47,7 +34,7 @@ class HighQMultiSelectDropDown<T> extends StatefulWidget {
     this.maxDisplayCount = 3,
     this.controller,
     this.loadingWidget,
-    this.makeButtonsInRow= false,
+    this.makeButtonsInRow = false,
     this.dropdownDecorator = const DropDownDecoratorProps(),
     this.clearButtonProps = const ClearButtonProps(),
     this.dropdownButtonProps = const DropdownButtonProps(),
@@ -59,18 +46,18 @@ class HighQMultiSelectDropDown<T> extends StatefulWidget {
     this.popupProps = const PopupPropsMultiSelection.menu(),
     this.methodLogicProps = const MethodLogicProps(),
     this.enabled = true,
-  })  : assert(
-          !popupProps.showSelectedItems ||
-              T == String ||
-              filterAndCompareProps.compareFn != null,
-        ),
-        onChanged = methodLogicProps.onChanged,
-        textFieldOnChanged = popupProps.textFieldOnChanged,
-        onBeforePopupOpeningMultiSelection =
-            methodLogicProps.onBeforePopupOpening,
-        onSavedMultiSelection = methodLogicProps.onSaved,
-        onBeforeChangeMultiSelection = methodLogicProps.onBeforeChange,
-        super(key: key);
+  }) : assert(
+         !popupProps.showSelectedItems ||
+             T == String ||
+             filterAndCompareProps.compareFn != null,
+       ),
+       onChanged = methodLogicProps.onChanged,
+       textFieldOnChanged = popupProps.textFieldOnChanged,
+       onBeforePopupOpeningMultiSelection =
+           methodLogicProps.onBeforePopupOpening,
+       onSavedMultiSelection = methodLogicProps.onSaved,
+       onBeforeChangeMultiSelection = methodLogicProps.onBeforeChange,
+       super(key: key);
 
   @override
   HighQMultiSelectDropDownState<T> createState() =>
@@ -116,11 +103,13 @@ class HighQMultiSelectDropDownState<T>
 
     super.didUpdateWidget(oldWidget);
   }
+
   void _clearSelection() {
     setState(() {
       _selectedItemsNotifier.value = [];
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<List<T?>>(
@@ -149,16 +138,18 @@ class HighQMultiSelectDropDownState<T>
 
     Widget defaultItemMultiSelectionMode(T item) {
       return Container(
-        padding: widget.selectedItemDecorationPros.selectedItemBoxPadding ??
+        padding:
+            widget.selectedItemDecorationPros.selectedItemBoxPadding ??
             EdgeInsets.only(left: 8, right: 1),
-        margin: widget.selectedItemDecorationPros.selectedItemBoxMargin ??
+        margin:
+            widget.selectedItemDecorationPros.selectedItemBoxMargin ??
             EdgeInsets.symmetric(horizontal: 2, vertical: 1),
         decoration:
             widget.selectedItemDecorationPros.selectedItemBoxDecoration ??
-                BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Theme.of(context).primaryColorLight,
-                ),
+            BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).primaryColorLight,
+            ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,12 +158,12 @@ class HighQMultiSelectDropDownState<T>
               child: Padding(
                 padding:
                     widget.selectedItemDecorationPros.selectedItemTextPadding ??
-                        EdgeInsets.zero,
+                    EdgeInsets.zero,
                 child: Text(
                   _selectedItemAsString(item),
                   style:
                       widget.selectedItemDecorationPros.selectedItemTextStyle ??
-                          Theme.of(context).textTheme.titleSmall,
+                      Theme.of(context).textTheme.titleSmall,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -180,7 +171,7 @@ class HighQMultiSelectDropDownState<T>
             Padding(
               padding:
                   widget.selectedItemDecorationPros.removeItemWidgetPadding ??
-                      EdgeInsets.zero,
+                  EdgeInsets.zero,
               child: GestureDetector(
                 onTap: () {
                   removeItem(item);
@@ -232,9 +223,7 @@ class HighQMultiSelectDropDownState<T>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Wrap(
-          children: itemWidgets,
-        ),
+        Wrap(children: itemWidgets),
         if (selectedItems.isNotEmpty && selectedItems.length > maxDisplayCount)
           GestureDetector(
             onTap: () {
@@ -248,7 +237,8 @@ class HighQMultiSelectDropDownState<T>
                 _showAllItems
                     ? widget.lessText
                     : '+${selectedItems.length - maxDisplayCount} ${widget.moreText}',
-                style: widget.selectedItemDecorationPros.moreTextStyle ??
+                style:
+                    widget.selectedItemDecorationPros.moreTextStyle ??
                     Theme.of(context).textTheme.titleSmall,
               ),
             ),
@@ -385,11 +375,13 @@ class HighQMultiSelectDropDownState<T>
     return RelativeRect.fromSize(
       Rect.fromPoints(
         popupButtonObject.localToGlobal(
-            popupButtonObject.size.bottomLeft(Offset.zero),
-            ancestor: overlay),
+          popupButtonObject.size.bottomLeft(Offset.zero),
+          ancestor: overlay,
+        ),
         popupButtonObject.localToGlobal(
-            popupButtonObject.size.bottomRight(Offset.zero),
-            ancestor: overlay),
+          popupButtonObject.size.bottomRight(Offset.zero),
+          ancestor: overlay,
+        ),
       ),
       Size(overlay.size.width, overlay.size.height),
     );
@@ -440,9 +432,9 @@ class HighQMultiSelectDropDownState<T>
       barrierColor: widget.popupProps.modalBottomSheetProps.barrierColor,
       backgroundColor:
           widget.popupProps.modalBottomSheetProps.backgroundColor ??
-              sheetTheme.modalBackgroundColor ??
-              sheetTheme.backgroundColor ??
-              Colors.white,
+          sheetTheme.modalBackgroundColor ??
+          sheetTheme.backgroundColor ??
+          Colors.white,
       isDismissible: widget.popupProps.modalBottomSheetProps.barrierDismissible,
       isScrollControlled:
           widget.popupProps.modalBottomSheetProps.isScrollControlled,
@@ -480,7 +472,7 @@ class HighQMultiSelectDropDownState<T>
   Widget _popupWidgetInstance() {
     return SelectionWidget<T>(
       key: _popupStateKey,
-      makeButtonsInRow:widget.makeButtonsInRow ,
+      makeButtonsInRow: widget.makeButtonsInRow,
       popupProps: widget.popupProps,
       items: widget.itemsLogicProps.items,
       itemAsString: widget.itemsLogicProps.itemAsString,
@@ -540,7 +532,8 @@ class HighQMultiSelectDropDownState<T>
   Future<void> _selectSearchMode() async {
     if (widget.onBeforePopupOpeningMultiSelection != null) {
       if (await widget.onBeforePopupOpeningMultiSelection!(getSelectedItems) ==
-          false) return;
+          false)
+        return;
     }
 
     _handleFocus(true);
@@ -562,7 +555,8 @@ class HighQMultiSelectDropDownState<T>
       _handleOnChangeSelectedItems(selectedItems);
 
   void removeItem(T itemToRemove) => _handleOnChangeSelectedItems(
-      getSelectedItems..removeWhere((i) => _isEqual(itemToRemove, i)));
+    getSelectedItems..removeWhere((i) => _isEqual(itemToRemove, i)),
+  );
 
   void clearAllSelected() => _handleOnChangeSelectedItems([]);
 

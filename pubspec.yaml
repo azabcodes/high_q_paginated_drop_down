@@ -4,7 +4,7 @@ version: 2.1.3
 homepage: https://github.com/mazab99/high_q_paginated_drop_down
 
 environment:
-  sdk: ^3.8.0
+  sdk: ^3.10.4
 
 
 dependencies:

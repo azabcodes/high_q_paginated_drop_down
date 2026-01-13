@@ -1,10 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:high_q_paginated_drop_down/src/extensions/context_extension.dart';
-import 'package:high_q_paginated_drop_down/src/extensions/global_paint_bounds.dart';
-import 'package:high_q_paginated_drop_down/src/utils/package_inkwell_widget.dart';
-import 'package:high_q_paginated_drop_down/src/utils/search_bar.dart';
 import '../high_q_paginated_drop_down.dart';
 
 class HighQPaginatedDropdown<T> extends StatefulWidget {
@@ -690,7 +686,7 @@ class _DropDownListViewState<T> extends State<_DropDownListView<T>> {
                       if (index < itemList.length) {
                         final item = itemList.elementAt(index);
                         return PackageInkwellWidget(
-                          child: item.child,
+                          child: item.child!,
                           onTap: () {
                             widget.dropdownController.selectedItem.value = item;
                             widget.onChanged?.call(item.value);
