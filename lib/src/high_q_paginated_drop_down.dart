@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../high_q_paginated_drop_down.dart';
 
@@ -38,6 +37,11 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
   final Widget? leadingIcon;
 
   final Widget Function(Widget child)? backgroundDecoration;
+  final Decoration? menuDecoration;
+  final Widget Function(BuildContext context, int index)? separatorBuilder;
+  final Widget Function(BuildContext context, T? item)? selectedItemBuilder;
+  final Color? barrierColor;
+  final bool? barrierDismissible;
 
   const HighQPaginatedDropdown({
     Key? key,
@@ -66,6 +70,12 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
     Duration? searchDelayDuration,
     double? paddingValueWhileIsDialogExpanded,
     MenuItemModel<T>? initialValue,
+    Decoration? decoration,
+    Decoration? menuDecoration,
+    Widget Function(BuildContext, int)? separatorBuilder,
+    Widget Function(BuildContext, T?)? selectedItemBuilder,
+    Color? barrierColor,
+    bool? barrierDismissible,
   }) : this._(
          key: key,
          hintText: hintText,
@@ -94,6 +104,13 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
          paddingValueWhileIsDialogExpanded: paddingValueWhileIsDialogExpanded,
          searchDelayDuration: searchDelayDuration,
          initialFutureValue: initialValue,
+
+         menuDecoration: menuDecoration,
+
+         separatorBuilder: separatorBuilder,
+         selectedItemBuilder: selectedItemBuilder,
+         barrierColor: barrierColor,
+         barrierDismissible: barrierDismissible,
        );
 
   const HighQPaginatedDropdown.paginated({
@@ -124,6 +141,12 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
     bool hasTrailingClearIcon = true,
     MenuItemModel<T>? initialValue,
     double? spaceBetweenDropDownAndItemsDialog,
+
+    Decoration? menuDecoration,
+    Widget Function(BuildContext, int)? separatorBuilder,
+    Widget Function(BuildContext, T?)? selectedItemBuilder,
+    Color? barrierColor,
+    bool? barrierDismissible,
   }) : this._(
          key: key,
          controller: controller,
@@ -152,6 +175,12 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
          hasTrailingClearIcon: hasTrailingClearIcon,
          initialFutureValue: initialValue,
          spaceBetweenDropDownAndItemsDialog: spaceBetweenDropDownAndItemsDialog,
+         menuDecoration: menuDecoration,
+
+         separatorBuilder: separatorBuilder,
+         selectedItemBuilder: selectedItemBuilder,
+         barrierColor: barrierColor,
+         barrierDismissible: barrierDismissible,
        );
 
   const HighQPaginatedDropdown._({
@@ -183,6 +212,11 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
     this.isDialogExpanded = true,
     this.hasTrailingClearIcon = true,
     this.spaceBetweenDropDownAndItemsDialog,
+    this.menuDecoration,
+    this.separatorBuilder,
+    this.selectedItemBuilder,
+    this.barrierColor,
+    this.barrierDismissible,
   });
 
   @override
@@ -226,7 +260,7 @@ class _HighQPaginatedDropdownState<T> extends State<HighQPaginatedDropdown<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final dropdownWidget = _DropDown(
+    final dropdownWidget = DropDown(
       loadingWidget: widget.loadingWidget!,
       controller: dropdownController,
       showTextField: widget.showTextField,
@@ -250,6 +284,12 @@ class _HighQPaginatedDropdownState<T> extends State<HighQPaginatedDropdown<T>> {
       spaceBetweenDropDownAndItemsDialog:
           widget.spaceBetweenDropDownAndItemsDialog,
       textFieldDecoration: widget.textFieldDecoration,
+      menuDecoration: widget.menuDecoration,
+
+      separatorBuilder: widget.separatorBuilder,
+      selectedItemBuilder: widget.selectedItemBuilder,
+      barrierColor: widget.barrierColor,
+      barrierDismissible: widget.barrierDismissible,
     );
 
     return SizedBox(
@@ -258,508 +298,5 @@ class _HighQPaginatedDropdownState<T> extends State<HighQPaginatedDropdown<T>> {
       child:
           widget.backgroundDecoration?.call(dropdownWidget) ?? dropdownWidget,
     );
-  }
-}
-
-class _DropDown<T> extends StatelessWidget {
-  final bool isEnabled;
-  final bool showTextField;
-  final Widget loadingWidget;
-  final bool isDialogExpanded;
-  final InputDecoration? textFieldDecoration;
-  final double? paddingValueWhileIsDialogExpanded;
-  final bool hasTrailingClearIcon;
-  final double? dropDownMaxHeight;
-  final double? spaceBetweenDropDownAndItemsDialog;
-
-  //Delay of DropDown's search callback after typing complete.
-  final Duration? searchDelayDuration;
-  final EdgeInsetsGeometry? padding;
-  final Future<List<MenuItemModel<T>>?> Function(int page, String? searchText)?
-  paginatedRequest;
-  final PaginatedSearchDropdownController<T> controller;
-  final String? searchHintText;
-  final VoidCallback? onTapWhileDisableDropDown;
-  final void Function(T? value)? onChanged;
-  final Widget? trailingIcon;
-  final Widget? trailingClearIcon;
-  final Widget? leadingIcon;
-  final Widget? hintText;
-  final Widget? noRecordText;
-
-  const _DropDown({
-    required this.controller,
-    required this.showTextField,
-    required this.isEnabled,
-    required this.isDialogExpanded,
-    this.leadingIcon,
-    this.trailingIcon,
-    this.paddingValueWhileIsDialogExpanded,
-    this.trailingClearIcon,
-    this.onTapWhileDisableDropDown,
-    this.padding,
-    this.loadingWidget = const CircularProgressIndicator.adaptive(),
-    this.textFieldDecoration = const InputDecoration(isDense: true),
-    this.hintText,
-    this.dropDownMaxHeight,
-    this.paginatedRequest,
-    this.noRecordText,
-    this.onChanged,
-    this.searchHintText,
-    this.searchDelayDuration,
-    this.hasTrailingClearIcon = true,
-    this.spaceBetweenDropDownAndItemsDialog,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        if (isEnabled) {
-          showDropdownDialog(
-            context,
-            controller,
-            spaceBetweenDropDownAndItemsDialog:
-                spaceBetweenDropDownAndItemsDialog,
-          );
-        } else {
-          if (kDebugMode) {
-            PrintManager.printColoredText(
-              item: 'You Disabled the DropDown',
-              color: ConsoleColor.brightRedBg,
-            );
-          }
-          onTapWhileDisableDropDown?.call();
-        }
-      },
-      child: Padding(
-        padding: padding ?? const EdgeInsets.all(8),
-        child: Row(
-          children: [
-            Expanded(
-              child: Row(
-                children: [
-                  if (leadingIcon != null)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 3),
-                      child: leadingIcon,
-                    ),
-                  Flexible(
-                    child: _DropDownText(
-                      controller: controller,
-                      hintText: hintText,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ValueListenableBuilder(
-              valueListenable: controller.selectedItem,
-              builder: (context, value, child) {
-                if (value == null || !hasTrailingClearIcon) {
-                  return trailingIcon ??
-                      const Icon(Icons.keyboard_arrow_down_rounded, size: 24);
-                }
-                return PackageInkwellWidget(
-                  padding: EdgeInsets.zero,
-                  onTap: () {
-                    controller.selectedItem.value = null;
-                    onChanged?.call(null);
-                  },
-                  child:
-                      trailingClearIcon ??
-                      const Icon(Icons.clear, color: Colors.red, size: 24),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void showDropdownDialog(
-    BuildContext context,
-    PaginatedSearchDropdownController<T> controller, {
-    double? spaceBetweenDropDownAndItemsDialog,
-  }) {
-    final spaceBetweenDropDownAndItemsDialog0 =
-        spaceBetweenDropDownAndItemsDialog ?? 35;
-    var isReversed = false;
-    final deviceHeight = context.deviceHeight;
-    final dropdownGlobalPointBounds = controller.key.globalPaintBounds;
-    final alertDialogMaxHeight = dropDownMaxHeight ?? deviceHeight * 0.35;
-
-    final dropdownPositionFromBottom = dropdownGlobalPointBounds != null
-        ? deviceHeight - dropdownGlobalPointBounds.bottom
-        : null;
-    var dialogPositionFromBottom = dropdownPositionFromBottom != null
-        ? dropdownPositionFromBottom - alertDialogMaxHeight
-        : null;
-    if (dialogPositionFromBottom != null) {
-      //If dialog couldn't fit the screen, reverse it
-      if (dialogPositionFromBottom <= 0) {
-        isReversed = true;
-        final dropdownHeight = dropdownGlobalPointBounds?.height ?? 54;
-        dialogPositionFromBottom +=
-            alertDialogMaxHeight +
-            dropdownHeight -
-            spaceBetweenDropDownAndItemsDialog0;
-      } else {
-        dialogPositionFromBottom -= spaceBetweenDropDownAndItemsDialog0;
-      }
-    }
-    if (controller.items == null) {
-      if (paginatedRequest != null) {
-        controller.getItemsWithPaginatedRequest(page: 1, isNewSearch: true);
-      }
-    } else {
-      controller.searchedItems.value = controller.items;
-    }
-    //Show the dialog
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        var reCalculatePosition = dialogPositionFromBottom;
-        final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-        //If keyboard pushes the dialog, recalculate the dialog's position.
-        if (reCalculatePosition != null &&
-            reCalculatePosition <= keyboardHeight) {
-          reCalculatePosition =
-              (keyboardHeight - reCalculatePosition) + reCalculatePosition;
-        }
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: reCalculatePosition ?? 0,
-            left: isDialogExpanded
-                ? paddingValueWhileIsDialogExpanded != null
-                      ? paddingValueWhileIsDialogExpanded!
-                      : 16
-                : dropdownGlobalPointBounds?.left ?? 0,
-            right: isDialogExpanded
-                ? paddingValueWhileIsDialogExpanded != null
-                      ? paddingValueWhileIsDialogExpanded!
-                      : 16
-                : 0,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: isDialogExpanded
-                ? CrossAxisAlignment.center
-                : CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: alertDialogMaxHeight,
-                width: isDialogExpanded
-                    ? null
-                    : dropdownGlobalPointBounds?.width,
-                child: _DropDownCard(
-                  controller: controller,
-                  isReversed: isReversed,
-                  showTextField: showTextField,
-                  noRecordText: noRecordText,
-                  onChanged: onChanged,
-                  paginatedRequest: paginatedRequest,
-                  searchHintText: searchHintText,
-                  searchDelayDuration: searchDelayDuration,
-                  textFieldDecoration: textFieldDecoration,
-                  loadingWidget: loadingWidget,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-      barrierColor: Colors.transparent,
-    );
-  }
-}
-
-class _DropDownText<T> extends StatelessWidget {
-  final PaginatedSearchDropdownController<T> controller;
-  final Widget? hintText;
-
-  const _DropDownText({required this.controller, this.hintText});
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: controller.selectedItem,
-      builder: (context, MenuItemModel<T>? selectedItem, child) =>
-          selectedItem?.child ??
-          (selectedItem?.label != null
-              ? Text(
-                  selectedItem!.label,
-                  maxLines: 1,
-                  overflow: TextOverflow.fade,
-                )
-              : hintText) ??
-          const SizedBox.shrink(),
-    );
-  }
-}
-
-class _DropDownCard<T> extends StatelessWidget {
-  final bool isReversed;
-  final bool showTextField;
-  final Duration? searchDelayDuration;
-  final InputDecoration? textFieldDecoration;
-  final Future<List<MenuItemModel<T>>?> Function(int page, String? searchText)?
-  paginatedRequest;
-  final PaginatedSearchDropdownController<T> controller;
-  final String? searchHintText;
-  final void Function(T? value)? onChanged;
-  final Widget? loadingWidget;
-  final Widget? noRecordText;
-
-  const _DropDownCard({
-    required this.controller,
-    required this.showTextField,
-    required this.isReversed,
-    this.searchHintText,
-    this.textFieldDecoration = const InputDecoration(isDense: true),
-    this.paginatedRequest,
-    this.onChanged,
-    this.loadingWidget,
-    this.noRecordText,
-    this.searchDelayDuration,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: isReversed
-          ? MainAxisAlignment.end
-          : MainAxisAlignment.start,
-      children: [
-        Flexible(
-          child: Material(
-            child: Container(
-              margin: EdgeInsets.zero,
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                verticalDirection: isReversed
-                    ? VerticalDirection.up
-                    : VerticalDirection.down,
-                children: [
-                  if (showTextField == true)
-                    _MultiSelectDropDownBar(
-                      controller: controller,
-                      searchHintText: searchHintText,
-                      searchDelayDuration: searchDelayDuration,
-                      textFieldDecoration: textFieldDecoration,
-                    ),
-                  Flexible(
-                    child: _DropDownListView(
-                      dropdownController: controller,
-                      paginatedRequest: paginatedRequest,
-                      isReversed: isReversed,
-                      noRecordText: noRecordText,
-                      onChanged: onChanged,
-                      loadingWidget: loadingWidget,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _MultiSelectDropDownBar<T> extends StatelessWidget {
-  final Duration? searchDelayDuration;
-  final PaginatedSearchDropdownController<T> controller;
-  final String? searchHintText;
-  final InputDecoration? textFieldDecoration;
-
-  const _MultiSelectDropDownBar({
-    required this.controller,
-    this.searchHintText,
-    this.searchDelayDuration,
-    this.textFieldDecoration = const InputDecoration(isDense: true),
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: PackageSearchBar(
-        searchDelayDuration:
-            searchDelayDuration ?? const Duration(milliseconds: 200),
-        hintText: searchHintText ?? 'Search',
-        isOutlined: true,
-        leadingIcon: const Icon(Icons.search, size: 24),
-        onChangeComplete: (value) {
-          controller.searchText = value;
-          if (controller.items != null) {
-            controller.fillSearchedList(value);
-            return;
-          }
-          controller.getItemsWithPaginatedRequest(
-            searchText: value == '' ? null : value,
-            page: 1,
-            isNewSearch: true,
-          );
-        },
-        textFieldDecoration: textFieldDecoration,
-      ),
-    );
-  }
-}
-
-class _DropDownListView<T> extends StatefulWidget {
-  final bool isReversed;
-  final Widget? loadingWidget;
-  final Future<List<MenuItemModel<T>>?> Function(int page, String? searchText)?
-  paginatedRequest;
-  final PaginatedSearchDropdownController<T> dropdownController;
-  final void Function(T? value)? onChanged;
-  final Widget? noRecordText;
-
-  const _DropDownListView({
-    required this.dropdownController,
-    required this.isReversed,
-    this.paginatedRequest,
-    this.noRecordText,
-    this.onChanged,
-    this.loadingWidget,
-  });
-
-  @override
-  State<_DropDownListView<T>> createState() => _DropDownListViewState<T>();
-}
-
-class _DropDownListViewState<T> extends State<_DropDownListView<T>> {
-  ScrollController scrollController = ScrollController();
-  Timer? timer;
-
-  @override
-  void initState() {
-    super.initState();
-    scrollController.addListener(scrollControllerListener);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    scrollController
-      ..removeListener(scrollControllerListener)
-      ..dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: widget.paginatedRequest != null
-          ? widget.dropdownController.paginatedItemList
-          : widget.dropdownController.searchedItems,
-      builder: (context, List<MenuItemModel<T>>? itemList, child) {
-        return itemList == null
-            ? widget.loadingWidget != null
-                  ? widget.loadingWidget!
-                  : const Center(child: CircularProgressIndicator.adaptive())
-            : itemList.isEmpty
-            ? Padding(
-                padding: const EdgeInsets.all(8),
-                child: widget.noRecordText ?? const Text('No record'),
-              )
-            : Scrollbar(
-                thumbVisibility: true,
-                controller: scrollController,
-                child: NotificationListener(
-                  child: ListView.builder(
-                    controller: scrollController,
-                    padding: listViewPadding(isReversed: widget.isReversed),
-                    itemCount: itemList.length + 1,
-                    shrinkWrap: true,
-                    reverse: widget.isReversed,
-                    itemBuilder: (context, index) {
-                      if (index < itemList.length) {
-                        final item = itemList.elementAt(index);
-                        return PackageInkwellWidget(
-                          child: item.child!,
-                          onTap: () {
-                            widget.dropdownController.selectedItem.value = item;
-                            widget.onChanged?.call(item.value);
-                            Navigator.pop(context);
-                            item.onTap?.call();
-                          },
-                        );
-                      } else {
-                        return ValueListenableBuilder(
-                          valueListenable: widget.dropdownController.status,
-                          builder:
-                              (
-                                context,
-                                PaginatedSearchDropdownStatus state,
-                                child,
-                              ) {
-                                if (state ==
-                                    PaginatedSearchDropdownStatus.busy) {
-                                  return Center(
-                                    child: widget.loadingWidget != null
-                                        ? widget.loadingWidget!
-                                        : const Center(
-                                            child:
-                                                CircularProgressIndicator.adaptive(),
-                                          ),
-                                  );
-                                }
-                                return const SizedBox.shrink();
-                              },
-                        );
-                      }
-                    },
-                  ),
-                ),
-              );
-      },
-    );
-  }
-
-  EdgeInsets listViewPadding({required bool isReversed}) {
-    final itemHeight = widget.paginatedRequest != null ? 48.0 : 0.0;
-    return EdgeInsets.only(
-      left: 8,
-      right: 8,
-      bottom: isReversed ? 0 : itemHeight,
-      top: isReversed ? itemHeight : 0,
-    );
-  }
-
-  void scrollControllerListener({
-    double sensitivity = 150.0,
-    Duration throttleDuration = const Duration(milliseconds: 400),
-  }) {
-    if (timer != null) return;
-
-    timer = Timer(throttleDuration, () => timer = null);
-
-    final position = scrollController.position;
-    final maxScroll = scrollController.position.maxScrollExtent;
-    final currentScroll = position.pixels;
-    final dropdownController = widget.dropdownController;
-    final searchText = dropdownController.searchText;
-    if (maxScroll - currentScroll <= sensitivity) {
-      if (searchText.isNotEmpty) {
-        dropdownController.getItemsWithPaginatedRequest(
-          page: dropdownController.page,
-          searchText: searchText,
-        );
-      } else {
-        dropdownController.getItemsWithPaginatedRequest(
-          page: dropdownController.page,
-        );
-      }
-    }
   }
 }

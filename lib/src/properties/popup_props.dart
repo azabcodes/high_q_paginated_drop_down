@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:high_q_paginated_drop_down/src/properties/scrollbar_props.dart';
-import 'package:high_q_paginated_drop_down/src/properties/text_field_props.dart';
-import '../utils/typedefs.dart';
-import 'dialog_props.dart';
-import 'favorite_item_props.dart';
-import 'list_view_props.dart';
-import 'menu_props.dart';
-import 'modal_bottom_sheet_props.dart';
+import '../../high_q_paginated_drop_down.dart';
 
 class PopupProps<T> {
   final Widget? title;
@@ -107,10 +100,10 @@ class PopupProps<T> {
     this.containerBuilder,
     this.constraints = const BoxConstraints(maxHeight: 350),
     this.interceptCallBacks = false,
-  })  : mode = Mode.menu,
-        //bottomSheetProps = const BottomSheetProps(),
-        dialogProps = const DialogProps(),
-        modalBottomSheetProps = const ModalBottomSheetProps();
+  }) : mode = Mode.menu,
+       //bottomSheetProps = const BottomSheetProps(),
+       dialogProps = const DialogProps(),
+       modalBottomSheetProps = const ModalBottomSheetProps();
 
   const PopupProps.dialog({
     this.fit = FlexFit.tight,
@@ -138,10 +131,10 @@ class PopupProps<T> {
       maxHeight: 600,
     ),
     this.interceptCallBacks = false,
-  })  : mode = Mode.dialog,
-        menuProps = const MenuProps(),
-        //bottomSheetProps = const BottomSheetProps(),
-        modalBottomSheetProps = const ModalBottomSheetProps();
+  }) : mode = Mode.dialog,
+       menuProps = const MenuProps(),
+       //bottomSheetProps = const BottomSheetProps(),
+       modalBottomSheetProps = const ModalBottomSheetProps();
 
   const PopupProps.modalBottomSheet({
     this.title,
@@ -165,10 +158,10 @@ class PopupProps<T> {
     this.containerBuilder,
     this.constraints = const BoxConstraints(maxHeight: 500),
     this.interceptCallBacks = false,
-  })  : mode = Mode.modelBottomSheet,
-        menuProps = const MenuProps(),
-        dialogProps = const DialogProps();
-//bottomSheetProps = const BottomSheetProps()
+  }) : mode = Mode.modelBottomSheet,
+       menuProps = const MenuProps(),
+       dialogProps = const DialogProps();
+  //bottomSheetProps = const BottomSheetProps()
 }
 
 class PopupPropsMultiSelection<T> extends PopupProps<T> {
@@ -309,35 +302,35 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
   }) : super.modalBottomSheet();
 
   PopupPropsMultiSelection.from(PopupProps<T> popupProps)
-      : this._(
-          title: popupProps.title,
-          fit: popupProps.fit,
-          favoriteItemProps: popupProps.favoriteItemProps,
-          disabledItemFn: popupProps.disabledItemFn,
-          emptyBuilder: popupProps.emptyBuilder,
-          errorBuilder: popupProps.errorBuilder,
-          isFilterOnline: popupProps.isFilterOnline,
-          itemBuilder: popupProps.itemBuilder,
-          listViewProps: popupProps.listViewProps,
-          loadingBuilder: popupProps.loadingBuilder,
-          modalBottomSheetProps: popupProps.modalBottomSheetProps,
-          onDismissed: popupProps.onDismissed,
-          scrollbarProps: popupProps.scrollbarProps,
-          searchDelay: popupProps.searchDelay,
-          searchFieldProps: popupProps.searchFieldProps,
-          showSearchBox: popupProps.showSearchBox,
-          showSelectedItems: popupProps.showSelectedItems,
-          mode: popupProps.mode,
-          //bottomSheetProps: popupProps.bottomSheetProps,
-          dialogProps: popupProps.dialogProps,
-          menuProps: popupProps.menuProps,
-          containerBuilder: popupProps.containerBuilder,
-          constraints: popupProps.constraints,
-          interceptCallBacks: popupProps.interceptCallBacks,
-          onItemAdded: null,
-          onItemRemoved: null,
-          selectionWidget: null,
-          validationWidgetBuilder: null,
-          textDirection: TextDirection.ltr,
-        );
+    : this._(
+        title: popupProps.title,
+        fit: popupProps.fit,
+        favoriteItemProps: popupProps.favoriteItemProps,
+        disabledItemFn: popupProps.disabledItemFn,
+        emptyBuilder: popupProps.emptyBuilder,
+        errorBuilder: popupProps.errorBuilder,
+        isFilterOnline: popupProps.isFilterOnline,
+        itemBuilder: popupProps.itemBuilder,
+        listViewProps: popupProps.listViewProps,
+        loadingBuilder: popupProps.loadingBuilder,
+        modalBottomSheetProps: popupProps.modalBottomSheetProps,
+        onDismissed: popupProps.onDismissed,
+        scrollbarProps: popupProps.scrollbarProps,
+        searchDelay: popupProps.searchDelay,
+        searchFieldProps: popupProps.searchFieldProps,
+        showSearchBox: popupProps.showSearchBox,
+        showSelectedItems: popupProps.showSelectedItems,
+        mode: popupProps.mode,
+        //bottomSheetProps: popupProps.bottomSheetProps,
+        dialogProps: popupProps.dialogProps,
+        menuProps: popupProps.menuProps,
+        containerBuilder: popupProps.containerBuilder,
+        constraints: popupProps.constraints,
+        interceptCallBacks: popupProps.interceptCallBacks,
+        onItemAdded: null,
+        onItemRemoved: null,
+        selectionWidget: null,
+        validationWidgetBuilder: null,
+        textDirection: TextDirection.ltr,
+      );
 }

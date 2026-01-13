@@ -1,17 +1,16 @@
 import 'package:flutter/foundation.dart';
 
-import 'colored_print.dart';
+import '../../high_q_paginated_drop_down.dart';
 
 class PrintManager {
   static void printFullText(String text) {
     final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-    pattern.allMatches(text).forEach((match) => print(match.group(0).toString()));
+    pattern
+        .allMatches(text)
+        .forEach((match) => print(match.group(0).toString()));
   }
 
-  static void printItem({
-    required dynamic item,
-    bool printFirst = true,
-  }) {
+  static void printItem({required dynamic item, bool printFirst = true}) {
     if (kDebugMode) {
       if (printFirst == true) {
         print(AppStringsManager.printEqual);

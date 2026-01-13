@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package_inkwell_widget.dart';
 
 class PackageSearchBar extends StatelessWidget {
-  final bool isOutlined;
   final Duration searchDelayDuration;
   final FocusNode? focusNode;
   final String? hintText;
@@ -21,11 +20,11 @@ class PackageSearchBar extends StatelessWidget {
     this.searchDelayDuration = const Duration(milliseconds: 800),
     this.hintText,
     this.leadingIcon,
-    this.isOutlined = false,
+
     this.focusNode,
     this.controller,
     this.style,
-    this.textFieldDecoration = const InputDecoration( isDense: true,),
+    this.textFieldDecoration = const InputDecoration(isDense: true),
   });
 
   @override
@@ -36,41 +35,16 @@ class PackageSearchBar extends StatelessWidget {
       padding: EdgeInsets.zero,
       disableTabEffect: true,
       onTap: myFocusNode.requestFocus,
-      child: isOutlined
-          ? DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                border: Border.all(
-                  color: (style?.color ?? Colors.black).withOpacity(0.5),
-                ),
-              ),
-              child: SearchTextFormField(
-                onChangeComplete: onChangeComplete,
-                searchDelayDuration: searchDelayDuration,
-                hintText: hintText,
-                leadingIcon: leadingIcon,
-                focusNode: focusNode,
-                controller: controller,
-                style: style,
-                textFieldDecoration: textFieldDecoration,
-              ),
-            )
-          : Card(
-              margin: EdgeInsets.zero,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: SearchTextFormField(
-                onChangeComplete: onChangeComplete,
-                searchDelayDuration: searchDelayDuration,
-                hintText: hintText,
-                leadingIcon: leadingIcon,
-                focusNode: focusNode,
-                controller: controller,
-                style: style,
-                textFieldDecoration: textFieldDecoration,
-              ),
-            ),
+      child: SearchTextFormField(
+        onChangeComplete: onChangeComplete,
+        searchDelayDuration: searchDelayDuration,
+        hintText: hintText,
+        leadingIcon: leadingIcon,
+        focusNode: focusNode,
+        controller: controller,
+        style: style,
+        textFieldDecoration: textFieldDecoration,
+      ),
     );
   }
 }
@@ -93,9 +67,7 @@ class SearchTextFormField extends StatelessWidget {
     this.focusNode,
     this.controller,
     this.style,
-    this.textFieldDecoration = const InputDecoration(
-      isDense: true,
-    ),
+    this.textFieldDecoration = const InputDecoration(isDense: true),
   });
 
   @override
@@ -104,36 +76,33 @@ class SearchTextFormField extends StatelessWidget {
 
     void startCancelableOperation() {
       cancelableOperation = CancelableOperation.fromFuture(
-        Future.delayed(
-          searchDelayDuration,
-        ),
+        Future.delayed(searchDelayDuration),
       );
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: TextField(
-        controller: controller,
-        focusNode: focusNode,
-        onChanged: (value) async {
-          await cancelableOperation?.cancel();
-          startCancelableOperation();
-          await cancelableOperation?.value.whenComplete(
-            () {
-              onChangeComplete?.call(value);
-            },
-          );
-        },
-        style: style,
-        decoration: textFieldDecoration ??
-            InputDecoration(
-              contentPadding: EdgeInsets.zero,
-              isDense: true,
-              border: InputBorder.none,
-              hintText: hintText,
-              icon: leadingIcon,
-            ),
-      ),
+    return TextField(
+      controller: controller,
+      focusNode: focusNode,
+      onChanged: (value) async {
+        await cancelableOperation?.cancel();
+        startCancelableOperation();
+        await cancelableOperation?.value.whenComplete(() {
+          onChangeComplete?.call(value);
+        });
+      },
+      style: style,
+      decoration:
+          textFieldDecoration?.copyWith(
+            hintText: textFieldDecoration?.hintText ?? hintText,
+            icon: textFieldDecoration?.icon ?? leadingIcon,
+          ) ??
+          InputDecoration(
+            contentPadding: EdgeInsets.zero,
+            isDense: true,
+            border: InputBorder.none,
+            hintText: hintText,
+            icon: leadingIcon,
+          ),
     );
   }
 }

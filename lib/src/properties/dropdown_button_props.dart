@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'icon_button_props.dart';
+import '../../high_q_paginated_drop_down.dart';
 
 class DropdownButtonProps extends IconButtonProps {
   const DropdownButtonProps({

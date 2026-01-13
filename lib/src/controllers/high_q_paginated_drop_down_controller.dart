@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:high_q_paginated_drop_down/src/extensions/string_extension.dart';
-import 'package:high_q_paginated_drop_down/src/model/menu_item_model.dart';
+import '../../high_q_paginated_drop_down.dart';
 
 // ignore: prefer-match-file-name
 enum PaginatedSearchDropdownStatus { initial, busy, error, loaded }
@@ -18,13 +17,11 @@ class PaginatedSearchDropdownController<T> {
       ValueNotifier<MenuItemModel<T>?>(null);
   final ValueNotifier<PaginatedSearchDropdownStatus> status =
       ValueNotifier<PaginatedSearchDropdownStatus>(
-    PaginatedSearchDropdownStatus.initial,
-  );
+        PaginatedSearchDropdownStatus.initial,
+      );
 
-  late Future<List<MenuItemModel<T>>?> Function(
-    int page,
-    String? key,
-  )? paginatedRequest;
+  late Future<List<MenuItemModel<T>>?> Function(int page, String? key)?
+  paginatedRequest;
 
   late int requestItemCount;
 

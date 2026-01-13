@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import '../utils/typedefs.dart';
+import '../../high_q_paginated_drop_down.dart';
 
-class MethodLogicProps<T>{
+class MethodLogicProps<T> {
   final ValueChanged<List<T>>? onChanged;
   final FormFieldSetter<List<T>>? onSaved;
 
   ///a callBack will be called before opening le popup
   ///if the callBack return FALSE, the opening of the popup will be cancelled
   final BeforeChangeMultiSelection<T>? onBeforeChange;
+
   ///a callBack will be called before opening le popup
   ///if the callBack return FALSE, the opening of the popup will be cancelled
   final BeforePopupOpeningMultiSelection<T>? onBeforePopupOpening;

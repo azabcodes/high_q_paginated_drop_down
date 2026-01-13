@@ -1,4 +1,4 @@
-import '../utils/typedefs.dart';
+import '../../high_q_paginated_drop_down.dart';
 
 class FilterAndCompareProps<T> {
   final MultiSelectDropDownFilterFn<T>? filterFn;

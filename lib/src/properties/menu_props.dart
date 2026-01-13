@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utils/typedefs.dart';
+import '../../high_q_paginated_drop_down.dart';
 
 class MenuProps {
   final ShapeBorder? shape;

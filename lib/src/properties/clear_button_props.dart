@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
-import 'icon_button_props.dart';
+import '../../high_q_paginated_drop_down.dart';
 
 class ClearButtonProps extends IconButtonProps {
   const ClearButtonProps({
-    super.icon = const Icon(Icons.clear, size: 24,color: Colors.red,),
+    super.icon = const Icon(Icons.clear, size: 24, color: Colors.red),
     super.isVisible = false,
     super.iconSize = 24.0,
     super.clearText,
