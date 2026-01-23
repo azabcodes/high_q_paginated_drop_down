@@ -40,6 +40,7 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
   final Widget Function(BuildContext context, T? item)? selectedItemBuilder;
   final Color? barrierColor;
   final bool? barrierDismissible;
+  final Widget Function(String searchEntry)? emptyBuilder;
 
   const HighQPaginatedDropdown({
     Key? key,
@@ -50,6 +51,7 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
     InputDecoration? textFieldDecoration,
     String? searchHintText,
     Widget? noRecordText,
+    Widget Function(String searchEntry)? emptyBuilder,
     double? dropDownMaxHeight,
     EdgeInsetsGeometry? padding,
     Widget? trailingIcon,
@@ -83,6 +85,7 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
          backgroundDecoration: backgroundDecoration,
          searchHintText: searchHintText,
          noRecordText: noRecordText,
+         emptyBuilder: emptyBuilder,
          dropDownMaxHeight: dropDownMaxHeight,
          padding: padding,
          trailingIcon: trailingIcon,
@@ -122,6 +125,7 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
     Widget Function(Widget)? backgroundDecoration,
     String? searchHintText,
     Widget? noRecordText,
+    Widget Function(String searchEntry)? emptyBuilder,
     double? dropDownMaxHeight,
     EdgeInsetsGeometry? padding,
     Widget? trailingIcon,
@@ -157,6 +161,7 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
          backgroundDecoration: backgroundDecoration,
          searchHintText: searchHintText,
          noRecordText: noRecordText,
+         emptyBuilder: emptyBuilder,
          dropDownMaxHeight: dropDownMaxHeight,
          padding: padding,
          trailingIcon: trailingIcon,
@@ -190,6 +195,7 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
     this.backgroundDecoration,
     this.searchHintText,
     this.noRecordText,
+    this.emptyBuilder,
     this.dropDownMaxHeight,
     this.padding,
     this.trailingIcon,
@@ -267,6 +273,7 @@ class _HighQPaginatedDropdownState<T> extends State<HighQPaginatedDropdown<T>> {
       hintText: widget.hintText,
       padding: widget.padding,
       noRecordText: widget.noRecordText,
+      emptyBuilder: widget.emptyBuilder,
       onChanged: widget.onChanged,
       paginatedRequest: widget.paginatedRequest,
       searchHintText: widget.searchHintText,

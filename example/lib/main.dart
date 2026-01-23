@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final PaginatedSearchDropdownController<Anime> searchableDropdownController1 =
       PaginatedSearchDropdownController<Anime>();
+  final PaginatedSearchDropdownController<Anime> emptyDropdownController = PaginatedSearchDropdownController<Anime>();
 
   @override
   Widget build(BuildContext context) {
@@ -175,17 +176,40 @@ class MyApp extends StatelessWidget {
                                 isDialogExpanded: false,
                                 showTextField: true,
                                 paddingValueWhileIsDialogExpanded: 24,
-                                noRecordText: const Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Text(
-                                      'No anime found',
-                                      style: TextStyle(
-                                        color: Colors.grey,
+                                // noRecordText: const Center(
+                                //   child: Padding(
+                                //     padding: EdgeInsets.all(16.0),
+                                //     child: Text(
+                                //       'No anime found',
+                                //       style: TextStyle(
+                                //         color: Colors.grey,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                                emptyBuilder: (searchEntry) {
+                                  return Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Icon(
+                                            Icons.sentiment_dissatisfied_rounded,
+                                            size: 48,
+                                            color: Colors.grey,
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Text(
+                                            searchEntry.isEmpty ? "No records found" : "No match for '$searchEntry'",
+                                            style: const TextStyle(color: Colors.grey, fontSize: 16),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ),
-                                ),
+                                  );
+                                },
                                 selectedItemBuilder: (context, item) {
                                   return Text(
                                     item?.title ?? 'None',
@@ -205,6 +229,95 @@ class MyApp extends StatelessWidget {
                             ],
                           );
                         },
+                      ),
+                      const SizedBox(height: 48),
+                      const Divider(),
+                      const SizedBox(height: 24),
+                      Text(
+                        'Empty State Example',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'This dropdown simulates an API that always returns no results.',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.grey.shade600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 24),
+                      HighQPaginatedDropdown<Anime>.paginated(
+                        controller: emptyDropdownController,
+                        requestItemCount: 25,
+                        textFieldDecoration: const InputDecoration(
+                          border: InputBorder.none,
+                          enabledBorder: OutlineInputBorder(),
+                          focusedBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                        width: double.infinity,
+                        backgroundDecoration: (child) {
+                          return InputDecorator(
+                            decoration: const InputDecoration(
+                              labelText: 'Empty API',
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 4,
+                              ),
+                              prefixIcon: Icon(Icons.block_flipped),
+                            ),
+                            child: child,
+                          );
+                        },
+                        hintText: const Text('Try searching...'),
+                        paginatedRequest: (int page, String? searchText) async {
+                          // Simulate network delay
+                          await Future.delayed(const Duration(milliseconds: 500));
+                          // Always return empty list
+                          return [];
+                        },
+                        emptyBuilder: (searchEntry) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(
+                                    Icons.search_off_rounded,
+                                    size: 48,
+                                    color: Colors.orangeAccent,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    searchEntry.isEmpty ? "This list is always empty" : "No results for '$searchEntry'",
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        onChanged: (Anime? value) {},
+                        hasTrailingClearIcon: true,
+                        isDialogExpanded: false,
+                        showTextField: true,
+                        paddingValueWhileIsDialogExpanded: 24,
+                        menuDecoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.black),
+                        ),
                       ),
                       const SizedBox(height: 48),
                     ],

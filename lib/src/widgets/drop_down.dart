@@ -31,6 +31,7 @@ class DropDown<T> extends StatelessWidget {
   final Widget? trailingClearIcon;
   final Widget? hintText;
   final Widget? noRecordText;
+  final Widget Function(String searchEntry)? emptyBuilder;
 
   const DropDown({
     super.key,
@@ -49,6 +50,7 @@ class DropDown<T> extends StatelessWidget {
     this.dropDownMaxHeight,
     this.paginatedRequest,
     this.noRecordText,
+    this.emptyBuilder,
     this.onChanged,
     this.searchHintText,
     this.searchDelayDuration,
@@ -202,6 +204,7 @@ class DropDown<T> extends StatelessWidget {
                   isReversed: isReversed,
                   showTextField: showTextField,
                   noRecordText: noRecordText,
+                  emptyBuilder: emptyBuilder,
                   onChanged: onChanged,
                   paginatedRequest: paginatedRequest,
                   searchHintText: searchHintText,

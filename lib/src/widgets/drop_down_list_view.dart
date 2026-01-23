@@ -10,6 +10,7 @@ class DropDownListView<T> extends StatefulWidget {
   final PaginatedSearchDropdownController<T> dropdownController;
   final void Function(T? value)? onChanged;
   final Widget? noRecordText;
+  final Widget Function(String searchEntry)? emptyBuilder;
 
   const DropDownListView({
     super.key,
@@ -17,6 +18,7 @@ class DropDownListView<T> extends StatefulWidget {
     required this.isReversed,
     this.paginatedRequest,
     this.noRecordText,
+    this.emptyBuilder,
     this.onChanged,
     this.loadingWidget,
     this.separatorBuilder,
@@ -58,10 +60,11 @@ class _DropDownListViewState<T> extends State<DropDownListView<T>> {
                   ? widget.loadingWidget!
                   : const Center(child: CircularProgressIndicator.adaptive())
             : itemList.isEmpty
-            ? Padding(
-                padding: const EdgeInsets.all(8),
-                child: widget.noRecordText ?? const Text('No record'),
-              )
+            ? widget.emptyBuilder?.call(widget.dropdownController.searchText) ??
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: widget.noRecordText ?? const Text('No record'),
+                  )
             : Scrollbar(
                 thumbVisibility: true,
                 controller: scrollController,

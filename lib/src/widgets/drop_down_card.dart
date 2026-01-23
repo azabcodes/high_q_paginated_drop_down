@@ -13,6 +13,7 @@ class DropDownCard<T> extends StatelessWidget {
   final void Function(T? value)? onChanged;
   final Widget? loadingWidget;
   final Widget? noRecordText;
+  final Widget Function(String searchEntry)? emptyBuilder;
 
   final Decoration? menuDecoration;
   final Widget Function(BuildContext context, int index)? separatorBuilder;
@@ -28,6 +29,7 @@ class DropDownCard<T> extends StatelessWidget {
     this.onChanged,
     this.loadingWidget,
     this.noRecordText,
+    this.emptyBuilder,
     this.searchDelayDuration,
     this.menuDecoration,
     this.separatorBuilder,
@@ -87,6 +89,7 @@ class DropDownCard<T> extends StatelessWidget {
                       paginatedRequest: paginatedRequest,
                       isReversed: isReversed,
                       noRecordText: noRecordText,
+                      emptyBuilder: emptyBuilder,
                       onChanged: onChanged,
                       loadingWidget: loadingWidget,
                       separatorBuilder: separatorBuilder,
