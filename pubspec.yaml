@@ -1,7 +1,7 @@
 name: high_q_paginated_drop_down
 description: Package handles the pagination and search in DropDown .
 version: 2.1.4
-homepage: https://github.com/mazab99/high_q_paginated_drop_down
+homepage: https://github.com/azabcodes/high_q_paginated_drop_down
 
 environment:
   sdk: ^3.10.4
