@@ -6,6 +6,7 @@ export 'src/core/extensions/context_extension.dart';
 export 'src/core/extensions/global_paint_bounds.dart';
 export 'src/core/extensions/string_extension.dart';
 export 'src/mutli_select/high_q_multi_select_drop_down.dart';
+export 'src/mutli_select/high_q_multi_select_paginated_drop_down.dart';
 export 'src/paginated/high_q_paginated_drop_down.dart';
 export 'src/single/high_q_single_drop_down.dart';
 
@@ -41,6 +42,7 @@ export 'src/core/utils/typedefs.dart';
 export 'src/mutli_select/widgets/checkbox_widget.dart';
 export 'src/mutli_select/widgets/popup_menu.dart';
 export 'src/mutli_select/widgets/selection_widget.dart';
+export 'src/mutli_select/widgets/paginated_selection_widget.dart';
 export 'src/paginated/widgets/drop_down.dart';
 export 'src/paginated/widgets/drop_down_card.dart';
 export 'src/paginated/widgets/drop_down_list_view.dart';
