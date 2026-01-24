@@ -42,17 +42,10 @@ This package provides a unified widget `HighQDropDown`. You can use the main con
 > - `HighQMultiSelectDropDown`: Equivalent to `HighQDropDown.multiSelect()`.
 > - `HighQMultiSelectPaginatedDropDown`: Equivalent to `HighQDropDown.paginatedMultiSelect()`.
 
-<img width="1344" height="2992" alt="Screenshot_1769265789" src="https://github.com/user-attachments/assets/65a015e5-030d-44d8-bfc4-4219ecac8767" />
-
-
-https://github.com/user-attachments/assets/d5e814e9-40b1-477f-91f9-e526838985df
-
-
-
-https://github.com/user-attachments/assets/febe2be0-6d12-4625-965e-75b384d0eaef
-
-
-
-
-
-
+<table>
+  <tr>
+    <td><img width="300" alt="Screenshot" src="https://github.com/user-attachments/assets/65a015e5-030d-44d8-bfc4-4219ecac8767" /></td>
+    <td><video src="https://github.com/user-attachments/assets/d5e814e9-40b1-477f-91f9-e526838985df" width="300" /></td>
+    <td><video src="https://github.com/user-attachments/assets/febe2be0-6d12-4625-965e-75b384d0eaef" width="300" /></td>
+  </tr>
+</table>

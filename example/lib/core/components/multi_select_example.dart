@@ -37,6 +37,9 @@ class MultiSelectExample extends StatelessWidget {
             },
             itemAsString: (AnimeDataModel? u) => u?.title ?? '',
           ),
+          filterAndCompareProps: FilterAndCompareProps(
+            compareFn: (item1, item2) => item1.malId == item2.malId,
+          ),
           methodLogicProps: MethodLogicProps(
             onChanged: (List<AnimeDataModel> value) {
               debugPrint('Multi Select: ${value.map((e) => e.title).join(', ')}');

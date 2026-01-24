@@ -493,24 +493,27 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
   }
 
   Widget _itemWidgetMultiSelection(T item) {
+    final isSelected = _isSelectedItem(item);
     if (widget.popupProps.selectionWidget != null) {
       return CheckBoxWidget(
+        key: ValueKey('${item.hashCode}_$isSelected'),
         checkBox: (cnt, checked) {
           return widget.popupProps.selectionWidget!(context, item, checked);
         },
         interceptCallBacks: widget.popupProps.interceptCallBacks,
         textDirection: widget.popupProps.textDirection,
         layout: (context, isChecked) => _itemWidgetSingleSelection(item),
-        isChecked: _isSelectedItem(item),
+        isChecked: isSelected,
         isDisabled: _isDisabled(item),
         onChanged: (c) => _handleSelectedItem(item),
       );
     } else {
       return CheckBoxWidget(
+        key: ValueKey('${item.hashCode}_$isSelected'),
         textDirection: widget.popupProps.textDirection,
         interceptCallBacks: widget.popupProps.interceptCallBacks,
         layout: (context, isChecked) => _itemWidgetSingleSelection(item),
-        isChecked: _isSelectedItem(item),
+        isChecked: isSelected,
         isDisabled: _isDisabled(item),
         onChanged: (c) => _handleSelectedItem(item),
       );
