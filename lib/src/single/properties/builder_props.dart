@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PaginatedBuilderProps<T> {
+class BuilderProps<T> {
   final Widget Function(BuildContext context, int index)? separatorBuilder;
   final Widget Function(BuildContext context, T? item)? selectedItemBuilder;
   final Widget Function(String searchEntry)? emptyBuilder;
@@ -8,7 +8,7 @@ class PaginatedBuilderProps<T> {
   final Widget? noRecordText;
   final Widget? hintText;
 
-  const PaginatedBuilderProps({
+  const BuilderProps({
     this.separatorBuilder,
     this.selectedItemBuilder,
     this.emptyBuilder,

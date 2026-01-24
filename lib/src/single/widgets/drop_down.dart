@@ -31,6 +31,16 @@ class DropDown<T> extends StatelessWidget {
   final Widget? noRecordText;
   final Widget Function(String searchEntry)? emptyBuilder;
 
+  // New customizations
+  final TextStyle? searchStyle;
+  final Color? searchCursorColor;
+  final TextAlign searchTextAlign;
+  final double? elevation;
+  final Color? shadowColor;
+  final ShapeBorder? shape;
+  final ScrollPhysics? scrollPhysics;
+  final EdgeInsetsGeometry? listViewPadding;
+
   const DropDown({
     super.key,
     required this.controller,
@@ -59,6 +69,14 @@ class DropDown<T> extends StatelessWidget {
     this.selectedItemBuilder,
     this.barrierColor,
     this.barrierDismissible,
+    this.searchStyle,
+    this.searchCursorColor,
+    this.searchTextAlign = TextAlign.start,
+    this.elevation,
+    this.shadowColor,
+    this.shape,
+    this.scrollPhysics,
+    this.listViewPadding,
   });
 
   @override
@@ -191,6 +209,14 @@ class DropDown<T> extends StatelessWidget {
                   loadingWidget: loadingWidget,
                   menuDecoration: menuDecoration,
                   separatorBuilder: separatorBuilder,
+                  searchStyle: searchStyle,
+                  searchCursorColor: searchCursorColor,
+                  searchTextAlign: searchTextAlign,
+                  elevation: elevation,
+                  shadowColor: shadowColor,
+                  shape: shape,
+                  scrollPhysics: scrollPhysics,
+                  listViewPadding: listViewPadding,
                 ),
               ),
             ],

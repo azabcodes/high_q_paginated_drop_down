@@ -259,6 +259,7 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     super.showSelectedItems = false,
     super.disabledItemFn,
     super.isFilterOnline = false,
+    super.textFieldOnChanged,
     super.containerBuilder,
     super.constraints = const BoxConstraints(
       minWidth: 500,
@@ -291,6 +292,7 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     super.errorBuilder,
     super.loadingBuilder,
     super.showSelectedItems,
+    super.textFieldOnChanged,
     super.containerBuilder,
     super.constraints = const BoxConstraints(maxHeight: 500),
     super.interceptCallBacks = false,

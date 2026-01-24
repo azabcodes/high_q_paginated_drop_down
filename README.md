@@ -1,96 +1,43 @@
+# High Q Paginated DropDown
 
-In this package you have 2 types of DropDown
-1 : BasicPaginatedSearchDropdown .
-2 : PaginatedSearchDropdownFormField .
-2 : MultiSelectDropDown .
+A comprehensive Flutter package that handles pagination, search, and validation in DropDowns. It supports both single and multi-selection modes, with extensive customization options.
 
-** note : don't use the same controller in more Dropdown
-every type includes ( Paginated , Future )
+## Features
 
-if You need to make pagination use BasicPaginatedSearchDropdown.paginated
+- **Pagination Support**: Efficiently handle large lists with pagination.
+- **Searchable**: Built-in search functionality to filter items.
+- **Single & Multi Select**: Support for selecting one or multiple items.
+- **Form Integration**: Works seamlessly with Flutter's `Form` widget for validation.
+- **Highly Customizable**: Customize icons, decorations, builders, and more.
+- **Async Loading**: Support for fetching data asynchronously.
 
-HighQPaginatedDropdown<int>.paginated
+## Installation
 
-ex :
+Add the dependency to your `pubspec.yaml` file:
 
-```dart
-HighQPaginatedDropdown<int>.paginated(
-  requestItemCount: 25,
-  backgroundDecoration: (child) => InputDecorator(
-    decoration: InputDecoration(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-      labelText: 'Pokemons',
-    ),
-    child: child,
-  ),
-  hintText: const Text('Search Anime'),
-  paginatedRequest: (int page, String? searchText) async {
-    final paginatedList = await getAnimeList(page: page, key: searchText);
-    return paginatedList?.animeList?.map((e) {
-      return MenuItemModel(
-        value: e.malId,
-        label: e.title ?? '',
-        child: Text(
-          e.title ?? '',
-        ),
-      );
-    }).toList();
-  },
-  padding: const EdgeInsets.all(0),
-  onChanged: (int? value) {
-    debugPrint('$value');
-  },
-  hasTrailingClearIcon: false,
-  trailingIcon: const Icon(
-    Icons.arrow_circle_down_outlined,
-    color: Colors.red,
-  ),
-);
-
+```yaml
+dependencies:
+  high_q_paginated_drop_down: ^2.1.4
 ```
 
-if You need to make pagination and validation in same time use PaginatedSearchDropdownFormField.paginated
-
-ex :
+Then import it in your file:
 
 ```dart
-HighQPaginatedDropdown<int>.paginated(
-  controller: searchableDropdownController,
-  backgroundDecoration: (child) => InputDecorator(
-    decoration: InputDecoration(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-      labelText: 'Pokemons',
-    ),
-    child: child,
-  ),
-  hintText: const Text('Search Anime'),
-  padding: const EdgeInsets.all(0),
-  paginatedRequest: (int page, String? searchText) async {
-    final paginatedList = await getAnimeList(page: page, key: searchText);
-    return paginatedList?.animeList
-        ?.map((e) => MenuItemModel(
-              value: e.malId,
-              label: e.title ?? '',
-              child: Text(e.title ?? ''),
-            ))
-        .toList();
-  },
-  validator: (val) {
-    if (val == null) return 'Can\'t be empty';
-    return null;
-  },
-  onSaved: (val) {
-    debugPrint('On save: $val');
-  },
-);
+import 'package:high_q_paginated_drop_down/high_q_paginated_drop_down.dart';
 ```
 
-// Publish the package
-dart pub publish --dry-run
-dart pub publish
+## Usage
+
+This package provides a unified widget `HighQDropDown`. You can use the main constructor for standard single-selection, or named constructors for other modes:
+
+1. **`HighQDropDown(...)`** - Main constructor. Use this for basic single selection with a provided list of items.
+2. **`HighQDropDown.paginated(...)`** - Use this for single selection where items are fetched asynchronously with pagination.
+3. **`HighQDropDown.multiSelect(...)`** - Use this for multi-selection from a provided list.
+4. **`HighQDropDown.paginatedMultiSelect(...)`** - Use this for multi-selection with paginated asynchronous data.
+
+> **Note**: For backward compatibility or specific use cases, you can still access the underlying widgets directly:
+>
+> - `HighQSingleDropDown`: Equivalent to `HighQDropDown()`.
+> - `HighQPaginatedDropdown`: Equivalent to `HighQDropDown.paginated()`.
+> - `HighQMultiSelectDropDown`: Equivalent to `HighQDropDown.multiSelect()`.
+> - `HighQMultiSelectPaginatedDropDown`: Equivalent to `HighQDropDown.paginatedMultiSelect()`.

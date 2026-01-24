@@ -52,7 +52,7 @@ class SingleSelectExample extends StatelessWidget {
                       ),
                     );
                   }).toList(),
-                  searchProps: const PaginatedSearchProps(
+                  searchProps: const SearchProps(
                     searchDelayDuration: Duration(milliseconds: 500),
                     showTextField: true,
                     textFieldDecoration: InputDecoration(
@@ -63,7 +63,7 @@ class SingleSelectExample extends StatelessWidget {
                       contentPadding: EdgeInsets.zero,
                     ),
                   ),
-                  iconProps: const PaginatedIconProps(
+                  iconProps: const IconProps(
                     hasTrailingClearIcon: true,
                     trailingIcon: Icon(
                       Icons.keyboard_arrow_down_rounded,
@@ -75,7 +75,7 @@ class SingleSelectExample extends StatelessWidget {
                       size: 20,
                     ),
                   ),
-                  styleProps: PaginatedStyleProps(
+                  styleProps: StyleProps(
                     width: double.infinity,
                     isDialogExpanded: false,
                     paddingValueWhileIsDialogExpanded: 24,
@@ -103,7 +103,7 @@ class SingleSelectExample extends StatelessWidget {
                       );
                     },
                   ),
-                  builderProps: PaginatedBuilderProps(
+                  builderProps: BuilderProps(
                     hintText: const Text('Search Anime...'),
                     loadingWidget: const Center(
                       child: Padding(

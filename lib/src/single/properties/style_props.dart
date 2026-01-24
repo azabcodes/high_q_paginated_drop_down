@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PaginatedStyleProps {
+class StyleProps {
   final double? width;
   final EdgeInsetsGeometry? padding;
   final Widget Function(Widget child)? backgroundDecoration;
@@ -11,8 +11,13 @@ class PaginatedStyleProps {
   final double? spaceBetweenDropDownAndItemsDialog;
   final Color? barrierColor;
   final bool? barrierDismissible;
+  final double? elevation;
+  final Color? shadowColor;
+  final ShapeBorder? shape;
+  final ScrollPhysics? scrollPhysics;
+  final EdgeInsetsGeometry? listViewPadding;
 
-  const PaginatedStyleProps({
+  const StyleProps({
     this.width,
     this.padding,
     this.backgroundDecoration,
@@ -23,5 +28,10 @@ class PaginatedStyleProps {
     this.spaceBetweenDropDownAndItemsDialog,
     this.barrierColor,
     this.barrierDismissible,
+    this.elevation,
+    this.shadowColor,
+    this.shape,
+    this.listViewPadding,
+    this.scrollPhysics,
   });
 }

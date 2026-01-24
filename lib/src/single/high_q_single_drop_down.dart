@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../high_q_paginated_drop_down.dart';
 
-class HighQDropDown<T> extends StatefulWidget {
+class HighQSingleDropDown<T> extends StatefulWidget {
   final List<MenuItemModel<T>>? items;
   final HighQPaginatedDropdownController<T>? controller;
   final T? initialValue;
@@ -9,12 +9,12 @@ class HighQDropDown<T> extends StatefulWidget {
   final void Function(T? value)? onChanged;
   final VoidCallback? onDisabledTap;
 
-  final PaginatedSearchProps searchProps;
-  final PaginatedIconProps iconProps;
-  final PaginatedStyleProps styleProps;
-  final PaginatedBuilderProps<T> builderProps;
+  final SearchProps searchProps;
+  final IconProps iconProps;
+  final StyleProps styleProps;
+  final BuilderProps<T> builderProps;
 
-  const HighQDropDown({
+  const HighQSingleDropDown({
     super.key,
     this.items,
     this.controller,
@@ -22,17 +22,17 @@ class HighQDropDown<T> extends StatefulWidget {
     this.enabled = true,
     this.onChanged,
     this.onDisabledTap,
-    this.searchProps = const PaginatedSearchProps(),
-    this.iconProps = const PaginatedIconProps(),
-    this.styleProps = const PaginatedStyleProps(),
-    this.builderProps = const PaginatedBuilderProps(),
+    this.searchProps = const SearchProps(),
+    this.iconProps = const IconProps(),
+    this.styleProps = const StyleProps(),
+    this.builderProps = const BuilderProps(),
   });
 
   @override
-  State<HighQDropDown<T>> createState() => _HighQDropDownState<T>();
+  State<HighQSingleDropDown<T>> createState() => _HighQSingleDropDownState<T>();
 }
 
-class _HighQDropDownState<T> extends State<HighQDropDown<T>> {
+class _HighQSingleDropDownState<T> extends State<HighQSingleDropDown<T>> {
   late final HighQPaginatedDropdownController<T> dropdownController;
 
   @override
@@ -65,7 +65,7 @@ class _HighQDropDownState<T> extends State<HighQDropDown<T>> {
     final dropdownWidget = DropDown(
       loadingWidget: widget.builderProps.loadingWidget,
       controller: dropdownController,
-      showTextField: widget.searchProps.showTextField,
+      showTextField: widget.searchProps.showTextField ?? true,
       isEnabled: widget.enabled,
       paddingValueWhileIsDialogExpanded: widget.styleProps.paddingValueWhileIsDialogExpanded,
       onTapWhileDisableDropDown: widget.onDisabledTap,
@@ -89,6 +89,14 @@ class _HighQDropDownState<T> extends State<HighQDropDown<T>> {
       selectedItemBuilder: widget.builderProps.selectedItemBuilder,
       barrierColor: widget.styleProps.barrierColor,
       barrierDismissible: widget.styleProps.barrierDismissible,
+      searchStyle: widget.searchProps.style,
+      searchCursorColor: widget.searchProps.cursorColor,
+      searchTextAlign: widget.searchProps.textAlign ?? TextAlign.start,
+      elevation: widget.styleProps.elevation,
+      shadowColor: widget.styleProps.shadowColor,
+      shape: widget.styleProps.shape,
+      scrollPhysics: widget.styleProps.scrollPhysics,
+      listViewPadding: widget.styleProps.listViewPadding,
     );
 
     return SizedBox(

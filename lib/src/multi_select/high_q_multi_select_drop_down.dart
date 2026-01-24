@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../high_q_paginated_drop_down.dart';
-import 'widgets/paginated_selection_widget.dart';
 
-class HighQMultiSelectPaginatedDropDown<T> extends StatefulWidget {
+class HighQMultiSelectDropDown<T> extends StatefulWidget {
   final ItemsLogicProps<T> itemsLogicProps;
   final FilterAndCompareProps<T> filterAndCompareProps;
   final DropDownDecoratorProps dropdownDecorator;
@@ -29,12 +28,11 @@ class HighQMultiSelectPaginatedDropDown<T> extends StatefulWidget {
 
   final bool enabled;
 
-  // Pagination props
-  final Future<List<T>> Function(int page, String? filter)? paginatedRequest;
-  final int requestItemCount;
+  final SearchProps searchProps;
+  final StyleProps styleProps;
 
-  HighQMultiSelectPaginatedDropDown({
-    Key? key,
+  HighQMultiSelectDropDown({
+    super.key,
     this.moreText = 'Show more',
     this.lessText = 'Show less',
     this.maxDisplayCount = 3,
@@ -53,8 +51,8 @@ class HighQMultiSelectPaginatedDropDown<T> extends StatefulWidget {
     this.popupProps = const PopupPropsMultiSelection.menu(),
     this.methodLogicProps = const MethodLogicProps(),
     this.enabled = true,
-    this.paginatedRequest,
-    this.requestItemCount = 15,
+    this.searchProps = const SearchProps(),
+    this.styleProps = const StyleProps(),
   }) : assert(
          !popupProps.showSelectedItems || T == String || filterAndCompareProps.compareFn != null,
        ),
@@ -62,18 +60,16 @@ class HighQMultiSelectPaginatedDropDown<T> extends StatefulWidget {
        textFieldOnChanged = popupProps.textFieldOnChanged,
        onBeforePopupOpeningMultiSelection = methodLogicProps.onBeforePopupOpening,
        onSavedMultiSelection = methodLogicProps.onSaved,
-       onBeforeChangeMultiSelection = methodLogicProps.onBeforeChange,
-       super(key: key);
+       onBeforeChangeMultiSelection = methodLogicProps.onBeforeChange;
 
   @override
-  HighQMultiSelectPaginatedDropDownState<T> createState() => HighQMultiSelectPaginatedDropDownState<T>();
+  HighQMultiSelectDropDownState<T> createState() => HighQMultiSelectDropDownState<T>();
 }
 
-class HighQMultiSelectPaginatedDropDownState<T> extends State<HighQMultiSelectPaginatedDropDown<T>> {
+class HighQMultiSelectDropDownState<T> extends State<HighQMultiSelectDropDown<T>> {
   final ValueNotifier<List<T>> _selectedItemsNotifier = ValueNotifier([]);
   final ValueNotifier<bool> _isFocused = ValueNotifier(false);
-  // Changed to PaginatedSelectionWidgetState
-  final _popupStateKey = GlobalKey<PaginatedSelectionWidgetState<T>>();
+  final _popupStateKey = GlobalKey<SelectionWidgetState<T>>();
   bool _showAllItems = false;
 
   @override
@@ -91,7 +87,7 @@ class HighQMultiSelectPaginatedDropDownState<T> extends State<HighQMultiSelectPa
   }
 
   @override
-  void didUpdateWidget(HighQMultiSelectPaginatedDropDown<T> oldWidget) {
+  void didUpdateWidget(HighQMultiSelectDropDown<T> oldWidget) {
     List<T> oldSelectedItems = oldWidget.itemsLogicProps.initialSelectedItems;
 
     List<T> newSelectedItems = widget.itemsLogicProps.initialSelectedItems;
@@ -379,32 +375,33 @@ class HighQMultiSelectPaginatedDropDownState<T> extends State<HighQMultiSelectPa
   }
 
   Future _openSelectDialog() {
+    final effectivePopupProps = _getEffectivePopupProps();
     return showGeneralDialog(
       context: context,
-      barrierDismissible: widget.popupProps.dialogProps.barrierDismissible,
-      barrierLabel: widget.popupProps.dialogProps.barrierLabel,
-      transitionDuration: widget.popupProps.dialogProps.transitionDuration,
-      barrierColor: widget.popupProps.dialogProps.barrierColor ?? Colors.black54,
-      useRootNavigator: widget.popupProps.dialogProps.useRootNavigator,
-      anchorPoint: widget.popupProps.dialogProps.anchorPoint,
-      transitionBuilder: widget.popupProps.dialogProps.transitionBuilder,
+      barrierDismissible: effectivePopupProps.dialogProps.barrierDismissible,
+      barrierLabel: effectivePopupProps.dialogProps.barrierLabel,
+      transitionDuration: effectivePopupProps.dialogProps.transitionDuration,
+      barrierColor: effectivePopupProps.dialogProps.barrierColor ?? Colors.black54,
+      useRootNavigator: effectivePopupProps.dialogProps.useRootNavigator,
+      anchorPoint: effectivePopupProps.dialogProps.anchorPoint,
+      transitionBuilder: effectivePopupProps.dialogProps.transitionBuilder,
       pageBuilder: (context, animation, secondaryAnimation) {
         return AlertDialog(
-          buttonPadding: widget.popupProps.dialogProps.buttonPadding,
-          actionsOverflowButtonSpacing: widget.popupProps.dialogProps.actionsOverflowButtonSpacing,
-          insetPadding: widget.popupProps.dialogProps.insetPadding,
-          actionsPadding: widget.popupProps.dialogProps.actionsPadding,
-          actionsOverflowDirection: widget.popupProps.dialogProps.actionsOverflowDirection,
-          actionsOverflowAlignment: widget.popupProps.dialogProps.actionsOverflowAlignment,
-          actionsAlignment: widget.popupProps.dialogProps.actionsAlignment,
-          actions: widget.popupProps.dialogProps.actions,
-          alignment: widget.popupProps.dialogProps.alignment,
-          clipBehavior: widget.popupProps.dialogProps.clipBehavior,
-          elevation: widget.popupProps.dialogProps.elevation,
-          contentPadding: widget.popupProps.dialogProps.contentPadding,
-          shape: widget.popupProps.dialogProps.shape,
-          backgroundColor: widget.popupProps.dialogProps.backgroundColor,
-          semanticLabel: widget.popupProps.dialogProps.semanticLabel,
+          buttonPadding: effectivePopupProps.dialogProps.buttonPadding,
+          actionsOverflowButtonSpacing: effectivePopupProps.dialogProps.actionsOverflowButtonSpacing,
+          insetPadding: effectivePopupProps.dialogProps.insetPadding,
+          actionsPadding: effectivePopupProps.dialogProps.actionsPadding,
+          actionsOverflowDirection: effectivePopupProps.dialogProps.actionsOverflowDirection,
+          actionsOverflowAlignment: effectivePopupProps.dialogProps.actionsOverflowAlignment,
+          actionsAlignment: effectivePopupProps.dialogProps.actionsAlignment,
+          actions: effectivePopupProps.dialogProps.actions,
+          alignment: effectivePopupProps.dialogProps.alignment,
+          clipBehavior: effectivePopupProps.dialogProps.clipBehavior,
+          elevation: effectivePopupProps.dialogProps.elevation,
+          contentPadding: effectivePopupProps.dialogProps.contentPadding,
+          shape: effectivePopupProps.dialogProps.shape,
+          backgroundColor: effectivePopupProps.dialogProps.backgroundColor,
+          semanticLabel: effectivePopupProps.dialogProps.semanticLabel,
           content: _popupWidgetInstance(),
         );
       },
@@ -412,40 +409,42 @@ class HighQMultiSelectPaginatedDropDownState<T> extends State<HighQMultiSelectPa
   }
 
   Future _openModalBottomSheet() {
+    final effectivePopupProps = _getEffectivePopupProps();
     final sheetTheme = Theme.of(context).bottomSheetTheme;
     return showModalBottomSheet<T>(
       context: context,
-      useSafeArea: widget.popupProps.modalBottomSheetProps.useSafeArea,
-      barrierColor: widget.popupProps.modalBottomSheetProps.barrierColor,
+      useSafeArea: effectivePopupProps.modalBottomSheetProps.useSafeArea,
+      barrierColor: effectivePopupProps.modalBottomSheetProps.barrierColor,
       backgroundColor:
-          widget.popupProps.modalBottomSheetProps.backgroundColor ??
+          effectivePopupProps.modalBottomSheetProps.backgroundColor ??
           sheetTheme.modalBackgroundColor ??
           sheetTheme.backgroundColor ??
           Colors.white,
-      isDismissible: widget.popupProps.modalBottomSheetProps.barrierDismissible,
-      isScrollControlled: widget.popupProps.modalBottomSheetProps.isScrollControlled,
-      enableDrag: widget.popupProps.modalBottomSheetProps.enableDrag,
-      clipBehavior: widget.popupProps.modalBottomSheetProps.clipBehavior,
-      elevation: widget.popupProps.modalBottomSheetProps.elevation,
-      shape: widget.popupProps.modalBottomSheetProps.shape,
-      anchorPoint: widget.popupProps.modalBottomSheetProps.anchorPoint,
-      useRootNavigator: widget.popupProps.modalBottomSheetProps.useRootNavigator,
-      transitionAnimationController: widget.popupProps.modalBottomSheetProps.animation,
-      constraints: widget.popupProps.modalBottomSheetProps.constraints,
+      isDismissible: effectivePopupProps.modalBottomSheetProps.barrierDismissible,
+      isScrollControlled: effectivePopupProps.modalBottomSheetProps.isScrollControlled,
+      enableDrag: effectivePopupProps.modalBottomSheetProps.enableDrag,
+      clipBehavior: effectivePopupProps.modalBottomSheetProps.clipBehavior,
+      elevation: effectivePopupProps.modalBottomSheetProps.elevation,
+      shape: effectivePopupProps.modalBottomSheetProps.shape,
+      anchorPoint: effectivePopupProps.modalBottomSheetProps.anchorPoint,
+      useRootNavigator: effectivePopupProps.modalBottomSheetProps.useRootNavigator,
+      transitionAnimationController: effectivePopupProps.modalBottomSheetProps.animation,
+      constraints: effectivePopupProps.modalBottomSheetProps.constraints,
       builder: (ctx) => _popupWidgetInstance(),
     );
   }
 
   Future _openMenu() {
+    final effectivePopupProps = _getEffectivePopupProps();
     // Here we get the render object of our physical button, later to get its size & position
     final popupButtonObject = context.findRenderObject() as RenderBox;
     // Get the render object of the overlay used in `Navigator` / `MaterialApp`, i.e. screen size reference
     var overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
 
     return showCustomMenu<T>(
-      menuModeProps: widget.popupProps.menuProps,
+      menuModeProps: effectivePopupProps.menuProps,
       context: context,
-      position: (widget.popupProps.menuProps.positionCallback ?? _position)(
+      position: (effectivePopupProps.menuProps.positionCallback ?? _position)(
         popupButtonObject,
         overlay,
       ),
@@ -454,10 +453,11 @@ class HighQMultiSelectPaginatedDropDownState<T> extends State<HighQMultiSelectPa
   }
 
   Widget _popupWidgetInstance() {
-    return PaginatedSelectionWidget<T>(
+    final effectivePopupProps = _getEffectivePopupProps();
+    return SelectionWidget<T>(
       key: _popupStateKey,
       makeButtonsInRow: widget.makeButtonsInRow,
-      popupProps: widget.popupProps,
+      popupProps: effectivePopupProps,
       items: widget.itemsLogicProps.items,
       itemAsString: widget.itemsLogicProps.itemAsString,
       asyncItems: widget.itemsLogicProps.asyncItems,
@@ -475,10 +475,137 @@ class HighQMultiSelectPaginatedDropDownState<T> extends State<HighQMultiSelectPa
       loadingWidget: widget.loadingWidget,
       clearAllSelected: clearAllSelected,
       onChanged: _handleOnChangeSelectedItems,
-      // Pagination
-      paginatedRequest: widget.paginatedRequest,
-      requestItemCount: widget.requestItemCount,
     );
+  }
+
+  // Helper to merge PopupProps with new searchProps and styleProps
+  PopupPropsMultiSelection<T> _getEffectivePopupProps() {
+    final original = widget.popupProps;
+
+    // Merge SearchFieldProps
+    var searchFieldProps = original.searchFieldProps.copyWith(
+      style: widget.searchProps.style,
+      cursorColor: widget.searchProps.cursorColor,
+      textAlign: widget.searchProps.textAlign ?? original.searchFieldProps.textAlign,
+      decoration: widget.searchProps.textFieldDecoration,
+    );
+
+    // Merge ListViewProps
+    var listViewProps = original.listViewProps.copyWith(
+      physics: widget.styleProps.scrollPhysics,
+      padding: widget.styleProps.listViewPadding,
+    );
+
+    // Merge MenuProps
+    var menuProps = original.menuProps.copyWith(
+      elevation: widget.styleProps.elevation,
+      shadowColor: widget.styleProps.shadowColor,
+      shape: widget.styleProps.shape,
+    );
+
+    // Merge DialogProps
+    var dialogProps = original.dialogProps.copyWith(
+      elevation: widget.styleProps.elevation,
+      shape: widget.styleProps.shape,
+    );
+
+    // Merge ModalBottomSheetProps
+    var modalBottomSheetProps = original.modalBottomSheetProps.copyWith(
+      elevation: widget.styleProps.elevation,
+      shape: widget.styleProps.shape,
+    );
+
+    // Since PopupPropsMultiSelection doesn't have a copyWith, we have to construct it
+    // based on original mode.
+
+    if (original.mode == Mode.menu) {
+      return PopupPropsMultiSelection.menu(
+        title: original.title,
+        fit: original.fit,
+        showSearchBox: widget.searchProps.showTextField ?? original.showSearchBox,
+        searchFieldProps: searchFieldProps,
+        menuProps: menuProps,
+        favoriteItemProps: original.favoriteItemProps,
+        scrollbarProps: original.scrollbarProps,
+        listViewProps: listViewProps,
+        searchDelay: original.searchDelay,
+        onDismissed: original.onDismissed,
+        emptyBuilder: original.emptyBuilder,
+        textFieldOnChanged: original.textFieldOnChanged,
+        itemBuilder: original.itemBuilder,
+        errorBuilder: original.errorBuilder,
+        loadingBuilder: original.loadingBuilder,
+        showSelectedItems: original.showSelectedItems,
+        disabledItemFn: original.disabledItemFn,
+        isFilterOnline: original.isFilterOnline,
+        containerBuilder: original.containerBuilder,
+        constraints: original.constraints,
+        interceptCallBacks: original.interceptCallBacks,
+        onItemAdded: original.onItemAdded,
+        onItemRemoved: original.onItemRemoved,
+        selectionWidget: original.selectionWidget,
+        validationWidgetBuilder: original.validationWidgetBuilder,
+        textDirection: original.textDirection,
+      );
+    } else if (original.mode == Mode.dialog) {
+      return PopupPropsMultiSelection.dialog(
+        title: original.title,
+        fit: original.fit,
+        showSearchBox: widget.searchProps.showTextField ?? original.showSearchBox,
+        searchFieldProps: searchFieldProps,
+        scrollbarProps: original.scrollbarProps,
+        listViewProps: listViewProps,
+        favoriteItemProps: original.favoriteItemProps,
+        dialogProps: dialogProps,
+        searchDelay: original.searchDelay,
+        onDismissed: original.onDismissed,
+        textFieldOnChanged: original.textFieldOnChanged,
+        emptyBuilder: original.emptyBuilder,
+        itemBuilder: original.itemBuilder,
+        errorBuilder: original.errorBuilder,
+        loadingBuilder: original.loadingBuilder,
+        showSelectedItems: original.showSelectedItems,
+        disabledItemFn: original.disabledItemFn,
+        isFilterOnline: original.isFilterOnline,
+        containerBuilder: original.containerBuilder,
+        constraints: original.constraints,
+        interceptCallBacks: original.interceptCallBacks,
+        onItemAdded: original.onItemAdded,
+        onItemRemoved: original.onItemRemoved,
+        selectionWidget: original.selectionWidget,
+        validationWidgetBuilder: original.validationWidgetBuilder,
+        textDirection: original.textDirection,
+      );
+    } else {
+      return PopupPropsMultiSelection.modalBottomSheet(
+        title: original.title,
+        fit: original.fit,
+        showSearchBox: widget.searchProps.showTextField ?? original.showSearchBox,
+        modalBottomSheetProps: modalBottomSheetProps,
+        searchFieldProps: searchFieldProps,
+        scrollbarProps: original.scrollbarProps,
+        listViewProps: listViewProps,
+        favoriteItemProps: original.favoriteItemProps,
+        searchDelay: original.searchDelay,
+        onDismissed: original.onDismissed,
+        emptyBuilder: original.emptyBuilder,
+        textFieldOnChanged: original.textFieldOnChanged,
+        itemBuilder: original.itemBuilder,
+        errorBuilder: original.errorBuilder,
+        loadingBuilder: original.loadingBuilder,
+        showSelectedItems: original.showSelectedItems,
+        disabledItemFn: original.disabledItemFn,
+        isFilterOnline: original.isFilterOnline,
+        containerBuilder: original.containerBuilder,
+        constraints: original.constraints,
+        interceptCallBacks: original.interceptCallBacks,
+        onItemAdded: original.onItemAdded,
+        onItemRemoved: original.onItemRemoved,
+        selectionWidget: original.selectionWidget,
+        validationWidgetBuilder: original.validationWidgetBuilder,
+        textDirection: original.textDirection,
+      );
+    }
   }
 
   void _handleFocus(bool isFocused) {
@@ -578,7 +705,7 @@ class HighQMultiSelectPaginatedDropDownState<T> extends State<HighQMultiSelectPa
 
   void openMultiSelectDropDown() => _selectSearchMode();
 
-  PaginatedSelectionWidgetState<T>? get getPopupState => _popupStateKey.currentState;
+  SelectionWidgetState<T>? get getPopupState => _popupStateKey.currentState;
 
   void closeMultiSelectDropDown() => _popupStateKey.currentState?.closePopup();
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class PaginatedIconProps {
+class IconProps {
   final bool hasTrailingClearIcon;
   final Widget? trailingIcon;
   final Widget? trailingClearIcon;
   final Widget? leadingIcon;
 
-  const PaginatedIconProps({
+  const IconProps({
     this.hasTrailingClearIcon = true,
     this.trailingIcon,
     this.trailingClearIcon,

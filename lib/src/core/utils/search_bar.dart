@@ -9,6 +9,8 @@ class PackageSearchBar extends StatelessWidget {
   final TextEditingController? controller;
   final TextStyle? style;
   final InputDecoration? textFieldDecoration;
+  final Color? cursorColor;
+  final TextAlign textAlign;
 
   final void Function(String value)? onChangeComplete;
 
@@ -19,6 +21,8 @@ class PackageSearchBar extends StatelessWidget {
     this.focusNode,
     this.controller,
     this.style,
+    this.cursorColor,
+    this.textAlign = TextAlign.start,
     this.textFieldDecoration = const InputDecoration(isDense: true),
   });
 
@@ -36,6 +40,8 @@ class PackageSearchBar extends StatelessWidget {
         focusNode: focusNode,
         controller: controller,
         style: style,
+        cursorColor: cursorColor,
+        textAlign: textAlign,
         textFieldDecoration: textFieldDecoration,
       ),
     );
@@ -48,17 +54,21 @@ class SearchTextFormField extends StatelessWidget {
 
   final TextEditingController? controller;
   final TextStyle? style;
+  final Color? cursorColor;
+  final TextAlign textAlign;
   final void Function(String value)? onChangeComplete;
 
   final InputDecoration? textFieldDecoration;
 
   const SearchTextFormField({
+    super.key,
     this.onChangeComplete,
     this.searchDelayDuration = const Duration(milliseconds: 800),
-
     this.focusNode,
     this.controller,
     this.style,
+    this.cursorColor,
+    this.textAlign = TextAlign.start,
     this.textFieldDecoration = const InputDecoration(isDense: true),
   });
 
@@ -75,6 +85,8 @@ class SearchTextFormField extends StatelessWidget {
     return TextField(
       controller: controller,
       focusNode: focusNode,
+      cursorColor: cursorColor,
+      textAlign: textAlign,
       onChanged: (value) async {
         await cancelableOperation?.cancel();
         startCancelableOperation();

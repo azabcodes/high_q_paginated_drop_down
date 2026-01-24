@@ -10,6 +10,8 @@ class DropDownListView<T> extends StatefulWidget {
   final void Function(T? value)? onChanged;
   final Widget? noRecordText;
   final Widget Function(String searchEntry)? emptyBuilder;
+  final ScrollPhysics? scrollPhysics;
+  final EdgeInsetsGeometry? listViewPadding;
 
   const DropDownListView({
     super.key,
@@ -21,6 +23,8 @@ class DropDownListView<T> extends StatefulWidget {
     this.onChanged,
     this.loadingWidget,
     this.separatorBuilder,
+    this.scrollPhysics,
+    this.listViewPadding,
   });
 
   final Widget Function(BuildContext context, int index)? separatorBuilder;
@@ -69,9 +73,10 @@ class _DropDownListViewState<T> extends State<DropDownListView<T>> {
                 controller: scrollController,
                 child: NotificationListener(
                   child: ListView.separated(
+                    physics: widget.scrollPhysics ?? const AlwaysScrollableScrollPhysics(),
                     separatorBuilder: widget.separatorBuilder ?? (context, index) => const SizedBox.shrink(),
                     controller: scrollController,
-                    padding: listViewPadding(isReversed: widget.isReversed),
+                    padding: widget.listViewPadding ?? listViewPadding(isReversed: widget.isReversed),
                     itemCount: itemList.length + 1,
                     shrinkWrap: true,
                     reverse: widget.isReversed,

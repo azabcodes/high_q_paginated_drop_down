@@ -12,7 +12,7 @@ class CheckBoxWidget extends StatefulWidget {
   final TextDirection textDirection;
 
   CheckBoxWidget({
-    Key? key,
+    super.key,
     this.isChecked = false,
     this.isDisabled = false,
     this.layout,
@@ -20,7 +20,7 @@ class CheckBoxWidget extends StatefulWidget {
     this.interceptCallBacks = false,
     this.textDirection = TextDirection.ltr,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<CheckBoxWidget> createState() => _CheckBoxWidgetState();
@@ -53,13 +53,10 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           var w = Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              widget.layout != null
-                  ? Expanded(child: widget.layout!(context, v == true))
-                  : Container(),
+              widget.layout != null ? Expanded(child: widget.layout!(context, v == true)) : Container(),
               widget.checkBox != null
                   ? widget.checkBox!(context, v == true)
-                  : Checkbox(
-                      value: v, onChanged: widget.isDisabled ? null : (b) {}),
+                  : Checkbox(value: v, onChanged: widget.isDisabled ? null : (b) {}),
             ],
           );
 

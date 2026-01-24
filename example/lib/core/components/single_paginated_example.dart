@@ -29,7 +29,7 @@ class SinglePaginatedExample extends StatelessWidget {
             return null;
           },
           builder: (FormFieldState<AnimeDataModel> state) {
-            return HighQPaginatedDropdown<AnimeDataModel>(
+            return HighQDropDown<AnimeDataModel>.paginated(
               controller: controller,
               enabled: true,
               onChanged: (AnimeDataModel? value) {
@@ -63,7 +63,7 @@ class SinglePaginatedExample extends StatelessWidget {
                 },
                 requestItemCount: 25,
               ),
-              searchProps: const PaginatedSearchProps(
+              searchProps: const SearchProps(
                 searchDelayDuration: Duration(milliseconds: 500),
                 showTextField: true,
                 textFieldDecoration: InputDecoration(
@@ -74,7 +74,7 @@ class SinglePaginatedExample extends StatelessWidget {
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
-              iconProps: const PaginatedIconProps(
+              iconProps: const IconProps(
                 hasTrailingClearIcon: true,
                 trailingIcon: Icon(
                   Icons.keyboard_arrow_down_rounded,
@@ -86,7 +86,7 @@ class SinglePaginatedExample extends StatelessWidget {
                   size: 20,
                 ),
               ),
-              styleProps: PaginatedStyleProps(
+              styleProps: StyleProps(
                 width: double.infinity,
                 isDialogExpanded: false,
                 paddingValueWhileIsDialogExpanded: 24,
@@ -114,7 +114,7 @@ class SinglePaginatedExample extends StatelessWidget {
                   );
                 },
               ),
-              builderProps: PaginatedBuilderProps(
+              builderProps: BuilderProps(
                 hintText: const Text('Search Anime...'),
                 loadingWidget: const Center(
                   child: Padding(

@@ -20,7 +20,7 @@ class MultiSelectPaginatedExample extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 15),
-        HighQMultiSelectPaginatedDropDown<AnimeDataModel>(
+        HighQDropDown<AnimeDataModel>.paginatedMultiSelect(
           controller: controller,
           paginatedRequest: (int page, String? filter) async {
             final list = await getAnimeList(

@@ -17,6 +17,15 @@ class DropDownCard<T> extends StatelessWidget {
   final Decoration? menuDecoration;
   final Widget Function(BuildContext context, int index)? separatorBuilder;
 
+  final TextStyle? searchStyle;
+  final Color? searchCursorColor;
+  final TextAlign searchTextAlign;
+  final double? elevation;
+  final Color? shadowColor;
+  final ShapeBorder? shape;
+  final ScrollPhysics? scrollPhysics;
+  final EdgeInsetsGeometry? listViewPadding;
+
   const DropDownCard({
     super.key,
     required this.controller,
@@ -32,6 +41,14 @@ class DropDownCard<T> extends StatelessWidget {
     this.searchDelayDuration,
     this.menuDecoration,
     this.separatorBuilder,
+    this.searchStyle,
+    this.searchCursorColor,
+    this.searchTextAlign = TextAlign.start,
+    this.elevation,
+    this.shadowColor,
+    this.shape,
+    this.scrollPhysics,
+    this.listViewPadding,
   });
 
   @override
@@ -41,6 +58,18 @@ class DropDownCard<T> extends StatelessWidget {
       children: [
         Flexible(
           child: Material(
+            elevation: elevation ?? 0.0,
+            shadowColor: shadowColor,
+            shape: shape,
+            borderRadius: shape == null
+                ? (menuDecoration is BoxDecoration
+                          ? (menuDecoration as BoxDecoration).borderRadius
+                          : BorderRadius.circular(10))
+                      as BorderRadius?
+                : null,
+            clipBehavior: Clip.antiAlias,
+
+            color: Colors.transparent,
             child: Container(
               margin: EdgeInsets.zero,
 
@@ -72,6 +101,9 @@ class DropDownCard<T> extends StatelessWidget {
                           );
                         },
                         textFieldDecoration: textFieldDecoration,
+                        style: searchStyle,
+                        cursorColor: searchCursorColor,
+                        textAlign: searchTextAlign,
                       ),
                     ),
                   Flexible(
@@ -84,6 +116,8 @@ class DropDownCard<T> extends StatelessWidget {
                       onChanged: onChanged,
                       loadingWidget: loadingWidget,
                       separatorBuilder: separatorBuilder,
+                      scrollPhysics: scrollPhysics,
+                      listViewPadding: listViewPadding,
                     ),
                   ),
                 ],

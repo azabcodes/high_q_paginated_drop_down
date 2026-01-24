@@ -8,10 +8,10 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
   final MenuItemModel<T>? initialFutureValue;
   final VoidCallback? onDisabledTap;
 
-  final PaginatedSearchProps searchProps;
-  final PaginatedIconProps iconProps;
-  final PaginatedStyleProps styleProps;
-  final PaginatedBuilderProps<T> builderProps;
+  final SearchProps searchProps;
+  final IconProps iconProps;
+  final StyleProps styleProps;
+  final BuilderProps<T> builderProps;
   final PaginatedRequestProps<T> requestProps;
 
   const HighQPaginatedDropdown({
@@ -22,10 +22,10 @@ class HighQPaginatedDropdown<T> extends StatefulWidget {
     this.initialFutureValue,
     this.onDisabledTap,
     required this.requestProps,
-    this.searchProps = const PaginatedSearchProps(),
-    this.iconProps = const PaginatedIconProps(),
-    this.styleProps = const PaginatedStyleProps(),
-    this.builderProps = const PaginatedBuilderProps(),
+    this.searchProps = const SearchProps(),
+    this.iconProps = const IconProps(),
+    this.styleProps = const StyleProps(),
+    this.builderProps = const BuilderProps(),
   });
 
   @override
@@ -74,10 +74,12 @@ class _HighQPaginatedDropdownState<T> extends State<HighQPaginatedDropdown<T>> {
       separatorBuilder: widget.builderProps.separatorBuilder,
       selectedItemBuilder: widget.builderProps.selectedItemBuilder,
       ///////////////////////////////////////
-      showTextField: widget.searchProps.showTextField,
+      showTextField: widget.searchProps.showTextField ?? true,
       textFieldDecoration: widget.searchProps.textFieldDecoration,
-
       searchDelayDuration: widget.searchProps.searchDelayDuration,
+      searchStyle: widget.searchProps.style,
+      searchCursorColor: widget.searchProps.cursorColor,
+      searchTextAlign: widget.searchProps.textAlign ?? TextAlign.start,
       ///////////////////////////////////////
       paddingValueWhileIsDialogExpanded: widget.styleProps.paddingValueWhileIsDialogExpanded,
 
@@ -88,6 +90,11 @@ class _HighQPaginatedDropdownState<T> extends State<HighQPaginatedDropdown<T>> {
       spaceBetweenDropDownAndItemsDialog: widget.styleProps.spaceBetweenDropDownAndItemsDialog,
       barrierDismissible: widget.styleProps.barrierDismissible,
       isDialogExpanded: widget.styleProps.isDialogExpanded,
+      elevation: widget.styleProps.elevation,
+      shadowColor: widget.styleProps.shadowColor,
+      shape: widget.styleProps.shape,
+      scrollPhysics: widget.styleProps.scrollPhysics,
+      listViewPadding: widget.styleProps.listViewPadding,
       ///////////////////////////////////////
       trailingIcon: widget.iconProps.trailingIcon,
       trailingClearIcon: widget.iconProps.trailingClearIcon,

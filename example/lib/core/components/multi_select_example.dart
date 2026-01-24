@@ -20,7 +20,7 @@ class MultiSelectExample extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 15),
-        HighQMultiSelectDropDown<AnimeDataModel>(
+        HighQDropDown<AnimeDataModel>.multiSelect(
           controller: controller,
           validatorProps: ValidatorProps(
             validator: (List<AnimeDataModel>? value) {
