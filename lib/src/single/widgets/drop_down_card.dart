@@ -12,7 +12,7 @@ class DropDownCard<T> extends StatelessWidget {
   final void Function(T? value)? onChanged;
   final Widget? loadingWidget;
   final Widget? noRecordText;
-  final Widget Function(String searchEntry)? emptyBuilder;
+  final Widget Function(BuildContext context, String searchEntry)? emptyBuilder;
 
   final Decoration? menuDecoration;
   final Widget Function(BuildContext context, int index)? separatorBuilder;

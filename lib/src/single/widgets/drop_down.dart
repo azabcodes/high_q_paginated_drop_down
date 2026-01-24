@@ -29,7 +29,7 @@ class DropDown<T> extends StatelessWidget {
   final Widget? trailingClearIcon;
   final Widget? hintText;
   final Widget? noRecordText;
-  final Widget Function(String searchEntry)? emptyBuilder;
+  final Widget Function(BuildContext context, String searchEntry)? emptyBuilder;
 
   // New customizations
   final TextStyle? searchStyle;

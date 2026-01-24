@@ -1,3 +1,4 @@
+import 'package:example/core/components/empty_data_example.dart';
 import 'package:example/core/components/multi_select_example.dart';
 import 'package:example/core/components/multi_select_paginated_example.dart';
 import 'package:example/core/model/anime_model.dart';
@@ -54,6 +55,8 @@ class HomePage extends StatelessWidget {
   final HighQPaginatedDropdownController<AnimeDataModel> searchableDropdownController1 =
       HighQPaginatedDropdownController<AnimeDataModel>();
   final HighQPaginatedDropdownController<AnimeDataModel> singleSelectController =
+      HighQPaginatedDropdownController<AnimeDataModel>();
+  final HighQPaginatedDropdownController<AnimeDataModel> emptyDataController =
       HighQPaginatedDropdownController<AnimeDataModel>();
   final MultiSelectController<AnimeDataModel> multiSelectController = MultiSelectController<AnimeDataModel>();
   final MultiSelectController<AnimeDataModel> multiSelectPaginatedController = MultiSelectController<AnimeDataModel>();
@@ -124,6 +127,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
+              EmptyDataExample(controller: emptyDataController),
             ],
           ),
         ),

@@ -122,7 +122,7 @@ class SinglePaginatedExample extends StatelessWidget {
                     child: CircularProgressIndicator.adaptive(),
                   ),
                 ),
-                emptyBuilder: (searchEntry) {
+                emptyBuilder: (context, searchEntry) {
                   return Center(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),

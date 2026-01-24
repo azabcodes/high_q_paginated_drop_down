@@ -15,4 +15,9 @@ class MultiSelectController<T> {
   List<T> get selectedItems {
     return getSelectedItemsCallback?.call() ?? [];
   }
+
+  void dispose() {
+    clearSelectionCallback = null;
+    getSelectedItemsCallback = null;
+  }
 }

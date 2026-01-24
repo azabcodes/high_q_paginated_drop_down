@@ -9,7 +9,7 @@ class DropDownListView<T> extends StatefulWidget {
   final HighQPaginatedDropdownController<T> dropdownController;
   final void Function(T? value)? onChanged;
   final Widget? noRecordText;
-  final Widget Function(String searchEntry)? emptyBuilder;
+  final Widget Function(BuildContext context, String searchEntry)? emptyBuilder;
   final ScrollPhysics? scrollPhysics;
   final EdgeInsetsGeometry? listViewPadding;
 
@@ -63,7 +63,7 @@ class _DropDownListViewState<T> extends State<DropDownListView<T>> {
                   ? widget.loadingWidget!
                   : const Center(child: CircularProgressIndicator.adaptive())
             : itemList.isEmpty
-            ? widget.emptyBuilder?.call(widget.dropdownController.searchText) ??
+            ? widget.emptyBuilder?.call(context, widget.dropdownController.searchText) ??
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: widget.noRecordText ?? const Text('No record'),

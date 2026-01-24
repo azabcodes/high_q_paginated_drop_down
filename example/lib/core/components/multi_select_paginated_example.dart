@@ -84,8 +84,16 @@ class MultiSelectPaginatedExample extends StatelessWidget {
               child: const Icon(Icons.close_rounded, size: 14, color: Colors.purple),
             ),
           ),
-          popupProps: const PopupPropsMultiSelection.menu(
-            searchFieldProps: TextFieldProps(
+          popupProps: PopupPropsMultiSelection.menu(
+            menuProps: MenuProps(
+              elevation: 4,
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: const BorderSide(color: Colors.grey, width: 1),
+              ),
+            ),
+            searchFieldProps: const TextFieldProps(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
